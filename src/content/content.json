@@ -9,7 +9,47 @@
     "about": {
       "title": "About Us",
       "text": "We are a company based in Saudi Arabia, specializing in the industrial sector. Our primary focus is to cater to the growing industrial needs of the Kingdom, particularly in the areas of oil, gas, petrochemicals, power generation, and other energy industries. We take pride in implementing industry-approved monitoring and safety plans.",
-      "image": "/assets/about.jpg"
+      "image": "/assets/about.jpg",
+      "features": [
+        {
+          "icon": "🏭",
+          "title": "Industrial Specialization",
+          "description": "Focused on oil, gas, petrochemicals, power generation, and energy industries across Saudi Arabia."
+        },
+        {
+          "icon": "🛡️",
+          "title": "Safety Excellence",
+          "description": "Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology."
+        },
+        {
+          "icon": "🎯",
+          "title": "Quality Commitment",
+          "description": "Delivering high-quality services while maintaining our reputation as top-tier contractors."
+        },
+        {
+          "icon": "🌱",
+          "title": "Sustainability Focus",
+          "description": "Embracing innovation, development, and adhering to sustainability and social responsibility practices."
+        }
+      ],
+      "stats": [
+        {
+          "value": "4",
+          "label": "PWAS Systems"
+        },
+        {
+          "value": "40m",
+          "label": "Detection Range"
+        },
+        {
+          "value": "360°",
+          "label": "Area Coverage"
+        },
+        {
+          "value": "90°C",
+          "label": "Operating Temp"
+        }
+      ]
     },
     "services": {
       "title": "Our Services",
@@ -65,7 +105,16 @@
       "description": "Get in touch with us for industrial safety solutions and PWAS system implementation.",
       "email": "sales@arabengksa.com",
       "phone": "+966 50 900 9509",
-      "address": "Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia"
+      "address": "Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia",
+      "whyChooseUs": {
+        "title": "Why Choose Us?",
+        "benefits": [
+          "15+ years of engineering excellence",
+          "Cutting-edge technology solutions",
+          "24/7 customer support",
+          "100% client satisfaction guarantee"
+        ]
+      }
     }
   },
   "ar": {
@@ -78,7 +127,47 @@
     "about": {
       "title": "من نحن",
       "text": "نحن شركة مقرها المملكة العربية السعودية، متخصصة في القطاع الصناعي. تركيزنا الأساسي هو تلبية الاحتياجات الصناعية المتزايدة للمملكة، خاصة في مجالات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة الأخرى. نفخر بتطبيق خطط المراقبة والسلامة المعتمدة في الصناعة.",
-      "image": "/assets/about.jpg"
+      "image": "/assets/about.jpg",
+      "features": [
+        {
+          "icon": "🏭",
+          "title": "التخصص الصناعي",
+          "description": "نركز على صناعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة في جميع أنحاء المملكة العربية السعودية."
+        },
+        {
+          "icon": "🛡️",
+          "title": "التميز في السلامة",
+          "description": "نطبق خطط المراقبة والسلامة المعتمدة في الصناعة مع تقنية PWAS المتطورة."
+        },
+        {
+          "icon": "🎯",
+          "title": "الالتزام بالجودة",
+          "description": "نقدم خدمات عالية الجودة مع الحفاظ على سمعتنا كمقاولين من الدرجة الأولى."
+        },
+        {
+          "icon": "🌱",
+          "title": "التركيز على الاستدامة",
+          "description": "نتبنى الابتكار والتطوير ونلتزم بممارسات الاستدامة والمسؤولية الاجتماعية."
+        }
+      ],
+      "stats": [
+        {
+          "value": "4",
+          "label": "أنظمة PWAS"
+        },
+        {
+          "value": "40م",
+          "label": "نطاق الكشف"
+        },
+        {
+          "value": "360°",
+          "label": "تغطية المنطقة"
+        },
+        {
+          "value": "90°م",
+          "label": "درجة التشغيل"
+        }
+      ]
     },
     "services": {
       "title": "خدماتنا",
@@ -134,7 +223,16 @@
       "description": "تواصل معنا للحصول على حلول السلامة الصناعية وتنفيذ أنظمة PWAS.",
       "email": "sales@arabengksa.com",
       "phone": "+966 50 900 9509",
-      "address": "المنطقة الشرقية – الأحساء – مبارز – 6856، المملكة العربية السعودية"
+      "address": "المنطقة الشرقية – الأحساء – مبارز – 6856، المملكة العربية السعودية",
+      "whyChooseUs": {
+        "title": "لماذا تختارنا؟",
+        "benefits": [
+          "15+ سنة من التميز الهندسي",
+          "حلول تقنية متطورة",
+          "دعم العملاء على مدار الساعة",
+          "ضمان رضا العملاء 100%"
+        ]
+      }
     }
   }
 }

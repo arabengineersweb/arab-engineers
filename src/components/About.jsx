@@ -6,28 +6,8 @@ export default function About({lang}){
   const about = getContent('about', lang)
   const primary = getStyle('primaryColor')
   
-  const features = [
-    {
-      icon: "🏭",
-      title: lang === 'en' ? 'Industrial Specialization' : 'التخصص الصناعي',
-      description: lang === 'en' ? 'Focused on oil, gas, petrochemicals, power generation, and energy industries across Saudi Arabia.' : 'نركز على صناعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة في جميع أنحاء المملكة العربية السعودية.'
-    },
-    {
-      icon: "🛡️",
-      title: lang === 'en' ? 'Safety Excellence' : 'التميز في السلامة',
-      description: lang === 'en' ? 'Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology.' : 'نطبق خطط المراقبة والسلامة المعتمدة في الصناعة مع تقنية PWAS المتطورة.'
-    },
-    {
-      icon: "🎯",
-      title: lang === 'en' ? 'Quality Commitment' : 'الالتزام بالجودة',
-      description: lang === 'en' ? 'Delivering high-quality services while maintaining our reputation as top-tier contractors.' : 'نقدم خدمات عالية الجودة مع الحفاظ على سمعتنا كمقاولين من الدرجة الأولى.'
-    },
-    {
-      icon: "🌱",
-      title: lang === 'en' ? 'Sustainability Focus' : 'التركيز على الاستدامة',
-      description: lang === 'en' ? 'Embracing innovation, development, and adhering to sustainability and social responsibility practices.' : 'نتبنى الابتكار والتطوير ونلتزم بممارسات الاستدامة والمسؤولية الاجتماعية.'
-    }
-  ]
+  const features = about.features || []
+  const stats = about.stats || []
   
   return (
     <section id="about" className="pt-32 py-20 bg-white relative overflow-hidden">
@@ -92,22 +72,12 @@ export default function About({lang}){
         
         {/* Stats section */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
-          <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>4</div>
-            <div className="text-gray-600">{lang === 'en' ? 'PWAS Systems' : 'أنظمة PWAS'}</div>
-          </div>
-          <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>40m</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Detection Range' : 'نطاق الكشف'}</div>
-          </div>
-          <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>360°</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Area Coverage' : 'تغطية المنطقة'}</div>
-          </div>
-          <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>90°C</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Operating Temp' : 'درجة التشغيل'}</div>
-          </div>
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center p-6 bg-gray-50 rounded-2xl">
+              <div className="text-4xl font-bold mb-2" style={{color: primary}}>{stat.value}</div>
+              <div className="text-gray-600">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
