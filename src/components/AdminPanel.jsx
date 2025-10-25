@@ -24,23 +24,28 @@ export default function AdminPanel({ onLogout }) {
 
   const loadData = async () => {
     try {
-      // Load original content as fallback
-      const contentResponse = await fetch('/src/content/content.json')
-      const originalContent = await contentResponse.json()
-      
-      // Check for admin overrides
+      // Check for admin overrides first
       const adminContent = adminUtils.loadContent()
-      setContent(adminContent || originalContent)
-
-      // Load original styles as fallback
-      const stylesResponse = await fetch('/src/content/styles.json')
-      const originalStyles = await stylesResponse.json()
-      
-      // Check for admin overrides
       const adminStyles = adminUtils.loadStyles()
-      setStyles(adminStyles || originalStyles)
+      
+      if (adminContent) {
+        setContent(adminContent)
+      } else {
+        // Use imported original content as fallback
+        setContent(originalContent)
+      }
+      
+      if (adminStyles) {
+        setStyles(adminStyles)
+      } else {
+        // Use imported original styles as fallback
+        setStyles(originalStyles)
+      }
     } catch (error) {
       console.error('Error loading data:', error)
+      // Fallback to imported content if anything fails
+      setContent(originalContent)
+      setStyles(originalStyles)
     }
   }
 
@@ -577,38 +582,38 @@ export default function AdminPanel({ onLogout }) {
               </div>
             )}
 
-            {activeTab === 'hero' && content[lang]?.hero && (
+            {activeTab === 'hero' && (
               <div>
                 <h2 className="text-xl font-semibold mb-6">Hero Section</h2>
                 <TextInput
-                  value={content[lang].hero.title}
+                  value={content[lang]?.hero?.title || ''}
                   onChange={(value) => handleContentChange('hero', 'title', value)}
                   label="Title"
                 />
                 <TextArea
-                  value={content[lang].hero.subtitle}
+                  value={content[lang]?.hero?.subtitle || ''}
                   onChange={(value) => handleContentChange('hero', 'subtitle', value)}
                   label="Subtitle"
                   rows={2}
                 />
                 <TextInput
-                  value={content[lang].hero.buttonText}
+                  value={content[lang]?.hero?.buttonText || ''}
                   onChange={(value) => handleContentChange('hero', 'buttonText', value)}
                   label="Button Text"
                 />
               </div>
             )}
 
-            {activeTab === 'about' && content[lang]?.about && (
+            {activeTab === 'about' && (
               <div>
                 <h2 className="text-xl font-semibold mb-6">About Section</h2>
                 <TextInput
-                  value={content[lang].about.title}
+                  value={content[lang]?.about?.title || ''}
                   onChange={(value) => handleContentChange('about', 'title', value)}
                   label="Title"
                 />
                 <TextArea
-                  value={content[lang].about.text}
+                  value={content[lang]?.about?.text || ''}
                   onChange={(value) => handleContentChange('about', 'text', value)}
                   label="Description"
                   rows={4}
@@ -616,7 +621,7 @@ export default function AdminPanel({ onLogout }) {
                 
                 <div className="mt-8">
                   <h3 className="text-lg font-medium mb-4">Features</h3>
-                  {content[lang].about.features?.map((feature, index) => (
+                  {content[lang]?.about?.features?.map((feature, index) => (
                     <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
                       <h4 className="font-medium mb-3">Feature {index + 1}</h4>
                       <TextInput
@@ -641,7 +646,7 @@ export default function AdminPanel({ onLogout }) {
                 
                 <div className="mt-8">
                   <h3 className="text-lg font-medium mb-4">Statistics</h3>
-                  {content[lang].about.stats?.map((stat, index) => (
+                  {content[lang]?.about?.stats?.map((stat, index) => (
                     <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
                       <h4 className="font-medium mb-3">Stat {index + 1}</h4>
                       <TextInput
@@ -660,21 +665,21 @@ export default function AdminPanel({ onLogout }) {
               </div>
             )}
 
-            {activeTab === 'services' && content[lang]?.services && (
+            {activeTab === 'services' && (
               <div>
                 <h2 className="text-xl font-semibold mb-6">Services Section</h2>
                 <TextInput
-                  value={content[lang].services.title}
+                  value={content[lang]?.services?.title || ''}
                   onChange={(value) => handleContentChange('services', 'title', value)}
                   label="Section Title"
                 />
                 <TextInput
-                  value={content[lang].services.subtitle}
+                  value={content[lang]?.services?.subtitle || ''}
                   onChange={(value) => handleContentChange('services', 'subtitle', value)}
                   label="Subtitle"
                 />
                 <TextArea
-                  value={content[lang].services.description}
+                  value={content[lang]?.services?.description || ''}
                   onChange={(value) => handleContentChange('services', 'description', value)}
                   label="Description"
                   rows={3}
@@ -682,7 +687,7 @@ export default function AdminPanel({ onLogout }) {
                 
                 <div className="mt-8">
                   <h3 className="text-lg font-medium mb-4">Services</h3>
-                  {content[lang].services.services?.map((service, index) => (
+                  {content[lang]?.services?.services?.map((service, index) => (
                     <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
                       <h4 className="font-medium mb-3">Service {index + 1}</h4>
                       <TextInput
@@ -718,32 +723,32 @@ export default function AdminPanel({ onLogout }) {
               </div>
             )}
 
-            {activeTab === 'contact' && content[lang]?.contact && (
+            {activeTab === 'contact' && (
               <div>
                 <h2 className="text-xl font-semibold mb-6">Contact Section</h2>
                 <TextInput
-                  value={content[lang].contact.title}
+                  value={content[lang]?.contact?.title || ''}
                   onChange={(value) => handleContentChange('contact', 'title', value)}
                   label="Title"
                 />
                 <TextArea
-                  value={content[lang].contact.description}
+                  value={content[lang]?.contact?.description || ''}
                   onChange={(value) => handleContentChange('contact', 'description', value)}
                   label="Description"
                   rows={2}
                 />
                 <TextInput
-                  value={content[lang].contact.email}
+                  value={content[lang]?.contact?.email || ''}
                   onChange={(value) => handleContentChange('contact', 'email', value)}
                   label="Email"
                 />
                 <TextInput
-                  value={content[lang].contact.phone}
+                  value={content[lang]?.contact?.phone || ''}
                   onChange={(value) => handleContentChange('contact', 'phone', value)}
                   label="Phone"
                 />
                 <TextArea
-                  value={content[lang].contact.address}
+                  value={content[lang]?.contact?.address || ''}
                   onChange={(value) => handleContentChange('contact', 'address', value)}
                   label="Address"
                   rows={2}
@@ -752,13 +757,13 @@ export default function AdminPanel({ onLogout }) {
                 <div className="mt-8">
                   <h3 className="text-lg font-medium mb-4">Why Choose Us?</h3>
                   <TextInput
-                    value={content[lang].contact.whyChooseUs?.title || ''}
-                    onChange={(value) => handleContentChange('contact', 'whyChooseUs', { ...content[lang].contact.whyChooseUs, title: value })}
+                    value={content[lang]?.contact?.whyChooseUs?.title || ''}
+                    onChange={(value) => handleContentChange('contact', 'whyChooseUs', { ...content[lang]?.contact?.whyChooseUs, title: value })}
                     label="Section Title"
                   />
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Benefits</label>
-                    {content[lang].contact.whyChooseUs?.benefits?.map((benefit, index) => (
+                    {content[lang]?.contact?.whyChooseUs?.benefits?.map((benefit, index) => (
                       <TextInput
                         key={index}
                         value={benefit}
