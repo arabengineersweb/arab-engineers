@@ -1,0 +1,42 @@
+{
+  "en": {
+    "hero": {
+      "title": "Arab Engineers",
+      "subtitle": "Innovating the Future with Excellence",
+      "buttonText": "Discover More",
+      "image": "/assets/hero.jpg"
+    },
+    "about": {
+      "title": "About Us",
+      "text": "Arab Engineers is a leading engineering firm committed to delivering quality and innovation across industries.",
+      "image": "/assets/about.jpg"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Reach out to us for business inquiries or service information.",
+      "email": "info@arabengksa.com",
+      "phone": "+966-123-456-789",
+      "address": "Al-Ahsa, Saudi Arabia"
+    }
+  },
+  "ar": {
+    "hero": {
+      "title": "المهندسون العرب",
+      "subtitle": "نبتكر المستقبل بكل تميّز",
+      "buttonText": "اكتشف المزيد",
+      "image": "/assets/hero.jpg"
+    },
+    "about": {
+      "title": "من نحن",
+      "text": "المهندسون العرب هي شركة رائدة في الهندسة تلتزم بتقديم الجودة والابتكار عبر مختلف الصناعات.",
+      "image": "/assets/about.jpg"
+    },
+    "contact": {
+      "title": "تواصل معنا",
+      "description": "تواصل معنا للاستفسارات التجارية أو معلومات الخدمة.",
+      "email": "info@arabengksa.com",
+      "phone": "+966-123-456-789",
+      "address": "الأحساء، المملكة العربية السعودية"
+    }
+  }
+}

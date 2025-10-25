@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Poppins via index.html link */
+:root{
+  --primary: #004C97;
+  --secondary: #F1F5F9;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: white;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* RTL support helper */
+.rtl { direction: rtl; }
