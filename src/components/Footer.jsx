@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { getStyle } from '../utils/styleManager'
 
 export default function Footer(){ 
@@ -16,10 +17,10 @@ export default function Footer(){
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
+            <Link to="/" className="flex items-center gap-3 mb-6">
               <img src="/assets/logo.png" alt="logo" className="h-12 w-12 object-contain"/>
               <div className="text-2xl font-bold">Arab Engineers</div>
-            </div>
+            </Link>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               Leading engineering firm committed to delivering quality and innovation across industries. 
               Building the future with excellence and precision.
@@ -47,10 +48,10 @@ export default function Footer(){
           <div>
             <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-3">
-              <li><a href="#home" className="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
-              <li><a href="#about" className="text-gray-300 hover:text-white transition-colors duration-300">About Us</a></li>
-              <li><a href="#contact" className="text-gray-300 hover:text-white transition-colors duration-300">Contact</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Services</a></li>
+              <li><Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300">Home</Link></li>
+              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">About Us</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Services</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300">Contact</Link></li>
             </ul>
           </div>
           

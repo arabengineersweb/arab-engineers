@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Header({lang, setLang}){
   const [isScrolled, setIsScrolled] = useState(false)
+  const location = useLocation()
   
   useEffect(() => {
     const handleScroll = () => {
@@ -11,11 +13,8 @@ export default function Header({lang, setLang}){
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+  const isActive = (path) => {
+    return location.pathname === path
   }
   
   return (
@@ -24,31 +23,45 @@ export default function Header({lang, setLang}){
         ? 'bg-white/95 backdrop-blur-md shadow-lg' 
         : 'bg-white shadow-sm'
     }`}>
-      <div className="flex items-center gap-3">
+      <Link to="/" className="flex items-center gap-3">
         <img src="/assets/logo.png" alt="logo" className="h-12 w-12 object-contain"/>
         <div className="text-xl font-bold" style={{color: '#004C97'}}>Arab Engineers</div>
-      </div>
+      </Link>
       
       <div className="flex items-center gap-6">
         <nav className="hidden md:flex gap-8">
-          <button 
-            onClick={() => scrollToSection('home')} 
-            className="hover:text-blue-700 transition-colors duration-300 font-medium"
+          <Link 
+            to="/" 
+            className={`transition-colors duration-300 font-medium ${
+              isActive('/') ? 'text-blue-700' : 'hover:text-blue-700'
+            }`}
           >
             {lang === 'en' ? 'Home' : 'الرئيسية'}
-          </button>
-          <button 
-            onClick={() => scrollToSection('about')} 
-            className="hover:text-blue-700 transition-colors duration-300 font-medium"
+          </Link>
+          <Link 
+            to="/about" 
+            className={`transition-colors duration-300 font-medium ${
+              isActive('/about') ? 'text-blue-700' : 'hover:text-blue-700'
+            }`}
           >
             {lang === 'en' ? 'About' : 'من نحن'}
-          </button>
-          <button 
-            onClick={() => scrollToSection('contact')} 
-            className="hover:text-blue-700 transition-colors duration-300 font-medium"
+          </Link>
+          <Link 
+            to="/services" 
+            className={`transition-colors duration-300 font-medium ${
+              isActive('/services') ? 'text-blue-700' : 'hover:text-blue-700'
+            }`}
+          >
+            {lang === 'en' ? 'Services' : 'الخدمات'}
+          </Link>
+          <Link 
+            to="/contact" 
+            className={`transition-colors duration-300 font-medium ${
+              isActive('/contact') ? 'text-blue-700' : 'hover:text-blue-700'
+            }`}
           >
             {lang === 'en' ? 'Contact' : 'تواصل معنا'}
-          </button>
+          </Link>
         </nav>
         
         <div className="flex items-center gap-3">

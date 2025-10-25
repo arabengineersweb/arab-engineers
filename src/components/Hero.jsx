@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { getContent } from '../utils/contentLoader'
 import { getStyle } from '../utils/styleManager'
 
@@ -27,15 +28,20 @@ export default function Hero({lang}){
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button 
-                className="px-8 py-4 text-white font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl" 
+              <Link 
+                to="/services"
+                className="px-8 py-4 text-white font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl text-center" 
                 style={{backgroundColor: primary}}
               >
                 {hero.buttonText}
-              </button>
-              <button className="px-8 py-4 border-2 font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105" style={{borderColor: primary, color: primary}}>
+              </Link>
+              <Link 
+                to="/about"
+                className="px-8 py-4 border-2 font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105 text-center" 
+                style={{borderColor: primary, color: primary}}
+              >
                 {lang === 'en' ? 'Learn More' : 'اعرف المزيد'}
-              </button>
+              </Link>
             </div>
             
             {/* Trust indicators */}

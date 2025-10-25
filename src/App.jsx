@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
-import Hero from './components/Hero'
-import About from './components/About'
-import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
+import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
+import ServicesPage from './pages/ServicesPage'
+import ContactPage from './pages/ContactPage'
 import { getStyle } from './utils/styleManager'
 
 export default function App(){
@@ -29,14 +31,19 @@ export default function App(){
   },[])
 
   return (
-    <div className="min-h-screen">
-      <Header lang={lang} setLang={setLang} />
-      <main>
-        <Hero lang={lang} />
-        <About lang={lang} />
-        <ContactForm lang={lang} />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen">
+        <Header lang={lang} setLang={setLang} />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage lang={lang} />} />
+            <Route path="/about" element={<AboutPage lang={lang} />} />
+            <Route path="/services" element={<ServicesPage lang={lang} />} />
+            <Route path="/contact" element={<ContactPage lang={lang} />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   )
 }

@@ -11,6 +11,55 @@
       "text": "Arab Engineers is a leading engineering firm committed to delivering quality and innovation across industries.",
       "image": "/assets/about.jpg"
     },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive Engineering Solutions",
+      "description": "We provide a wide range of engineering services to meet your project needs with excellence and precision.",
+      "services": [
+        {
+          "id": "construction",
+          "title": "Construction Management",
+          "description": "Complete construction project management from planning to execution with quality assurance.",
+          "icon": "🏗️",
+          "features": ["Project Planning", "Quality Control", "Timeline Management", "Cost Optimization"]
+        },
+        {
+          "id": "civil",
+          "title": "Civil Engineering",
+          "description": "Infrastructure development and civil engineering solutions for modern cities and communities.",
+          "icon": "🌉",
+          "features": ["Road Construction", "Bridge Design", "Water Systems", "Urban Planning"]
+        },
+        {
+          "id": "mechanical",
+          "title": "Mechanical Engineering",
+          "description": "Advanced mechanical systems design and implementation for industrial applications.",
+          "icon": "⚙️",
+          "features": ["HVAC Systems", "Industrial Equipment", "Energy Systems", "Maintenance"]
+        },
+        {
+          "id": "electrical",
+          "title": "Electrical Engineering",
+          "description": "Power systems, electrical installations, and smart grid solutions for modern infrastructure.",
+          "icon": "⚡",
+          "features": ["Power Distribution", "Smart Grids", "Electrical Safety", "Renewable Energy"]
+        },
+        {
+          "id": "consulting",
+          "title": "Engineering Consulting",
+          "description": "Expert consultation services for complex engineering challenges and project optimization.",
+          "icon": "💡",
+          "features": ["Technical Analysis", "Feasibility Studies", "Risk Assessment", "Innovation"]
+        },
+        {
+          "id": "maintenance",
+          "title": "Maintenance Services",
+          "description": "Comprehensive maintenance and support services to ensure optimal performance.",
+          "icon": "🔧",
+          "features": ["Preventive Maintenance", "Emergency Repairs", "System Upgrades", "24/7 Support"]
+        }
+      ]
+    },
     "contact": {
       "title": "Contact Us",
       "description": "Reach out to us for business inquiries or service information.",
@@ -30,6 +79,55 @@
       "title": "من نحن",
       "text": "المهندسون العرب هي شركة رائدة في الهندسة تلتزم بتقديم الجودة والابتكار عبر مختلف الصناعات.",
       "image": "/assets/about.jpg"
+    },
+    "services": {
+      "title": "خدماتنا",
+      "subtitle": "حلول هندسية شاملة",
+      "description": "نقدم مجموعة واسعة من الخدمات الهندسية لتلبية احتياجات مشروعك بالتميز والدقة.",
+      "services": [
+        {
+          "id": "construction",
+          "title": "إدارة الإنشاءات",
+          "description": "إدارة مشاريع البناء الكاملة من التخطيط إلى التنفيذ مع ضمان الجودة.",
+          "icon": "🏗️",
+          "features": ["تخطيط المشاريع", "ضبط الجودة", "إدارة الجدول الزمني", "تحسين التكلفة"]
+        },
+        {
+          "id": "civil",
+          "title": "الهندسة المدنية",
+          "description": "تطوير البنية التحتية والحلول الهندسية المدنية للمدن والمجتمعات الحديثة.",
+          "icon": "🌉",
+          "features": ["بناء الطرق", "تصميم الجسور", "أنظمة المياه", "التخطيط الحضري"]
+        },
+        {
+          "id": "mechanical",
+          "title": "الهندسة الميكانيكية",
+          "description": "تصميم وتنفيذ الأنظمة الميكانيكية المتقدمة للتطبيقات الصناعية.",
+          "icon": "⚙️",
+          "features": ["أنظمة التدفئة والتهوية", "المعدات الصناعية", "أنظمة الطاقة", "الصيانة"]
+        },
+        {
+          "id": "electrical",
+          "title": "الهندسة الكهربائية",
+          "description": "أنظمة الطاقة والتركيبات الكهربائية وحلول الشبكة الذكية للبنية التحتية الحديثة.",
+          "icon": "⚡",
+          "features": ["توزيع الطاقة", "الشبكات الذكية", "السلامة الكهربائية", "الطاقة المتجددة"]
+        },
+        {
+          "id": "consulting",
+          "title": "الاستشارات الهندسية",
+          "description": "خدمات الاستشارة المتخصصة للتحديات الهندسية المعقدة وتحسين المشاريع.",
+          "icon": "💡",
+          "features": ["التحليل التقني", "دراسات الجدوى", "تقييم المخاطر", "الابتكار"]
+        },
+        {
+          "id": "maintenance",
+          "title": "خدمات الصيانة",
+          "description": "خدمات الصيانة والدعم الشاملة لضمان الأداء الأمثل.",
+          "icon": "🔧",
+          "features": ["الصيانة الوقائية", "الإصلاحات الطارئة", "ترقية الأنظمة", "الدعم على مدار الساعة"]
+        }
+      ]
     },
     "contact": {
       "title": "تواصل معنا",

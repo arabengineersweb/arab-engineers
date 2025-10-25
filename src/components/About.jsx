@@ -25,7 +25,7 @@ export default function About({lang}){
   ]
   
   return (
-    <section id="about" className="py-20 bg-white relative overflow-hidden">
+    <section id="about" className="pt-32 py-20 bg-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-20 w-64 h-64 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
