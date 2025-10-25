@@ -47,16 +47,16 @@ export default function Hero({lang}){
             {/* Trust indicators */}
             <div className="flex items-center gap-8 pt-8">
               <div className="text-center">
-                <div className="text-2xl font-bold" style={{color: primary}}>500+</div>
-                <div className="text-sm text-gray-600">{lang === 'en' ? 'Projects' : 'مشاريع'}</div>
+                <div className="text-2xl font-bold" style={{color: primary}}>4</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'PWAS Systems' : 'أنظمة PWAS'}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold" style={{color: primary}}>15+</div>
-                <div className="text-sm text-gray-600">{lang === 'en' ? 'Years Experience' : 'سنوات خبرة'}</div>
+                <div className="text-2xl font-bold" style={{color: primary}}>40m</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'Detection Range' : 'نطاق الكشف'}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold" style={{color: primary}}>50+</div>
-                <div className="text-sm text-gray-600">{lang === 'en' ? 'Team Members' : 'أعضاء الفريق'}</div>
+                <div className="text-2xl font-bold" style={{color: primary}}>360°</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'Coverage' : 'التغطية'}</div>
               </div>
             </div>
           </div>
@@ -78,8 +78,8 @@ export default function Hero({lang}){
                     </svg>
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">{lang === 'en' ? 'Innovation' : 'الابتكار'}</div>
-                    <div className="text-sm text-gray-600">{lang === 'en' ? 'At its finest' : 'في أبهى صوره'}</div>
+                    <div className="font-semibold text-gray-900">{lang === 'en' ? 'Safety First' : 'السلامة أولاً'}</div>
+                    <div className="text-sm text-gray-600">{lang === 'en' ? 'Industrial Excellence' : 'التميز الصناعي'}</div>
                   </div>
                 </div>
               </div>

@@ -2,139 +2,139 @@
   "en": {
     "hero": {
       "title": "Arab Engineers",
-      "subtitle": "Innovating the Future with Excellence",
-      "buttonText": "Discover More",
+      "subtitle": "Specialized Industrial Safety Solutions for Saudi Arabia",
+      "buttonText": "Discover Our Services",
       "image": "/assets/hero.jpg"
     },
     "about": {
       "title": "About Us",
-      "text": "Arab Engineers is a leading engineering firm committed to delivering quality and innovation across industries.",
+      "text": "We are a company based in Saudi Arabia, specializing in the industrial sector. Our primary focus is to cater to the growing industrial needs of the Kingdom, particularly in the areas of oil, gas, petrochemicals, power generation, and other energy industries. We take pride in implementing industry-approved monitoring and safety plans.",
       "image": "/assets/about.jpg"
     },
     "services": {
       "title": "Our Services",
-      "subtitle": "Comprehensive Engineering Solutions",
-      "description": "We provide a wide range of engineering services to meet your project needs with excellence and precision.",
+      "subtitle": "Advanced Industrial Safety Solutions",
+      "description": "We specialize in Proximity Warning Alert Systems (PWAS) designed to prevent collisions between vehicles and personnel in industrial and construction operations.",
       "services": [
         {
-          "id": "construction",
-          "title": "Construction Management",
-          "description": "Complete construction project management from planning to execution with quality assurance.",
-          "icon": "🏗️",
-          "features": ["Project Planning", "Quality Control", "Timeline Management", "Cost Optimization"]
+          "id": "non-tag-pwas",
+          "title": "Non-Tag Based PWAS",
+          "description": "Utilizes 70GHz MMW radar for obstacle detection within 40 meters range with camera feed for visual reference.",
+          "icon": "📡",
+          "features": ["70GHz MMW radar", "40 meters detection range", "Camera feed integration", "Real-time alerts"]
         },
         {
-          "id": "civil",
-          "title": "Civil Engineering",
-          "description": "Infrastructure development and civil engineering solutions for modern cities and communities.",
-          "icon": "🌉",
-          "features": ["Road Construction", "Bridge Design", "Water Systems", "Urban Planning"]
+          "id": "sensor-tag-pwas",
+          "title": "Sensor-Tag Based PWAS",
+          "description": "Advanced system merging Tag-Based and Non-Tag-Based technologies with 24GHz MMW radar and 2.4GHz RF module.",
+          "icon": "🔗",
+          "features": ["Dual technology integration", "24GHz MMW radar", "2.4GHz RF module", "Data logging with timestamps"]
         },
         {
-          "id": "mechanical",
-          "title": "Mechanical Engineering",
-          "description": "Advanced mechanical systems design and implementation for industrial applications.",
-          "icon": "⚙️",
-          "features": ["HVAC Systems", "Industrial Equipment", "Energy Systems", "Maintenance"]
+          "id": "tag-based-pwas",
+          "title": "Tag-Based PWAS",
+          "description": "Operates at 2.4GHz RF frequency to detect tags within 20 meters range and automatically record detection data.",
+          "icon": "🏷️",
+          "features": ["2.4GHz RF frequency", "20 meters detection range", "Multiple tag detection", "Automatic data recording"]
         },
         {
-          "id": "electrical",
-          "title": "Electrical Engineering",
-          "description": "Power systems, electrical installations, and smart grid solutions for modern infrastructure.",
-          "icon": "⚡",
-          "features": ["Power Distribution", "Smart Grids", "Electrical Safety", "Renewable Energy"]
+          "id": "ai-pwas",
+          "title": "AI-Based PWAS",
+          "description": "Advanced AI-powered system with machine learning capabilities for real-time hazard detection and collision prevention.",
+          "icon": "🤖",
+          "features": ["AI algorithms", "Machine learning", "Real-time monitoring", "Customizable sensitivity"]
         },
         {
-          "id": "consulting",
-          "title": "Engineering Consulting",
-          "description": "Expert consultation services for complex engineering challenges and project optimization.",
-          "icon": "💡",
-          "features": ["Technical Analysis", "Feasibility Studies", "Risk Assessment", "Innovation"]
+          "id": "safety-consulting",
+          "title": "Safety Consulting",
+          "description": "Expert consultation services for implementing industry-approved monitoring and safety plans across industrial operations.",
+          "icon": "🛡️",
+          "features": ["Safety plan development", "Risk assessment", "Compliance consulting", "Training programs"]
         },
         {
-          "id": "maintenance",
-          "title": "Maintenance Services",
-          "description": "Comprehensive maintenance and support services to ensure optimal performance.",
+          "id": "maintenance-support",
+          "title": "Maintenance & Support",
+          "description": "Comprehensive maintenance and technical support services to ensure optimal performance of all PWAS systems.",
           "icon": "🔧",
-          "features": ["Preventive Maintenance", "Emergency Repairs", "System Upgrades", "24/7 Support"]
+          "features": ["System maintenance", "Technical support", "Software updates", "24/7 assistance"]
         }
       ]
     },
     "contact": {
       "title": "Contact Us",
-      "description": "Reach out to us for business inquiries or service information.",
-      "email": "info@arabengksa.com",
-      "phone": "+966-123-456-789",
-      "address": "Al-Ahsa, Saudi Arabia"
+      "description": "Get in touch with us for industrial safety solutions and PWAS system implementation.",
+      "email": "sales@arabengksa.com",
+      "phone": "+966 50 900 9509",
+      "address": "Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia"
     }
   },
   "ar": {
     "hero": {
       "title": "المهندسون العرب",
-      "subtitle": "نبتكر المستقبل بكل تميّز",
-      "buttonText": "اكتشف المزيد",
+      "subtitle": "حلول السلامة الصناعية المتخصصة للمملكة العربية السعودية",
+      "buttonText": "اكتشف خدماتنا",
       "image": "/assets/hero.jpg"
     },
     "about": {
       "title": "من نحن",
-      "text": "المهندسون العرب هي شركة رائدة في الهندسة تلتزم بتقديم الجودة والابتكار عبر مختلف الصناعات.",
+      "text": "نحن شركة مقرها المملكة العربية السعودية، متخصصة في القطاع الصناعي. تركيزنا الأساسي هو تلبية الاحتياجات الصناعية المتزايدة للمملكة، خاصة في مجالات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة الأخرى. نفخر بتطبيق خطط المراقبة والسلامة المعتمدة في الصناعة.",
       "image": "/assets/about.jpg"
     },
     "services": {
       "title": "خدماتنا",
-      "subtitle": "حلول هندسية شاملة",
-      "description": "نقدم مجموعة واسعة من الخدمات الهندسية لتلبية احتياجات مشروعك بالتميز والدقة.",
+      "subtitle": "حلول السلامة الصناعية المتقدمة",
+      "description": "نحن متخصصون في أنظمة الإنذار والتحذير من القرب (PWAS) المصممة لمنع التصادم بين المركبات والأفراد في العمليات الصناعية والإنشائية.",
       "services": [
         {
-          "id": "construction",
-          "title": "إدارة الإنشاءات",
-          "description": "إدارة مشاريع البناء الكاملة من التخطيط إلى التنفيذ مع ضمان الجودة.",
-          "icon": "🏗️",
-          "features": ["تخطيط المشاريع", "ضبط الجودة", "إدارة الجدول الزمني", "تحسين التكلفة"]
+          "id": "non-tag-pwas",
+          "title": "نظام PWAS غير القائم على العلامات",
+          "description": "يستخدم رادار MMW بتردد 70 جيجاهرتز لاكتشاف العوائق ضمن نطاق 40 متر مع تغذية الكاميرا للمرجع البصري.",
+          "icon": "📡",
+          "features": ["رادار MMW بتردد 70 جيجاهرتز", "نطاق اكتشاف 40 متر", "تكامل تغذية الكاميرا", "تنبيهات فورية"]
         },
         {
-          "id": "civil",
-          "title": "الهندسة المدنية",
-          "description": "تطوير البنية التحتية والحلول الهندسية المدنية للمدن والمجتمعات الحديثة.",
-          "icon": "🌉",
-          "features": ["بناء الطرق", "تصميم الجسور", "أنظمة المياه", "التخطيط الحضري"]
+          "id": "sensor-tag-pwas",
+          "title": "نظام PWAS القائم على المستشعرات والعلامات",
+          "description": "نظام متقدم يجمع بين تقنيات القائمة على العلامات وغير القائمة على العلامات مع رادار MMW بتردد 24 جيجاهرتز ووحدة RF بتردد 2.4 جيجاهرتز.",
+          "icon": "🔗",
+          "features": ["تكامل التقنيات المزدوجة", "رادار MMW بتردد 24 جيجاهرتز", "وحدة RF بتردد 2.4 جيجاهرتز", "تسجيل البيانات مع الطوابع الزمنية"]
         },
         {
-          "id": "mechanical",
-          "title": "الهندسة الميكانيكية",
-          "description": "تصميم وتنفيذ الأنظمة الميكانيكية المتقدمة للتطبيقات الصناعية.",
-          "icon": "⚙️",
-          "features": ["أنظمة التدفئة والتهوية", "المعدات الصناعية", "أنظمة الطاقة", "الصيانة"]
+          "id": "tag-based-pwas",
+          "title": "نظام PWAS القائم على العلامات",
+          "description": "يعمل بتردد RF 2.4 جيجاهرتز لاكتشاف العلامات ضمن نطاق 20 متر وتسجيل بيانات الاكتشاف تلقائياً.",
+          "icon": "🏷️",
+          "features": ["تردد RF 2.4 جيجاهرتز", "نطاق اكتشاف 20 متر", "اكتشاف علامات متعددة", "تسجيل البيانات التلقائي"]
         },
         {
-          "id": "electrical",
-          "title": "الهندسة الكهربائية",
-          "description": "أنظمة الطاقة والتركيبات الكهربائية وحلول الشبكة الذكية للبنية التحتية الحديثة.",
-          "icon": "⚡",
-          "features": ["توزيع الطاقة", "الشبكات الذكية", "السلامة الكهربائية", "الطاقة المتجددة"]
+          "id": "ai-pwas",
+          "title": "نظام PWAS القائم على الذكاء الاصطناعي",
+          "description": "نظام متقدم مدعوم بالذكاء الاصطناعي مع قدرات التعلم الآلي لاكتشاف المخاطر في الوقت الفعلي ومنع التصادم.",
+          "icon": "🤖",
+          "features": ["خوارزميات الذكاء الاصطناعي", "التعلم الآلي", "المراقبة الفورية", "حساسية قابلة للتخصيص"]
         },
         {
-          "id": "consulting",
-          "title": "الاستشارات الهندسية",
-          "description": "خدمات الاستشارة المتخصصة للتحديات الهندسية المعقدة وتحسين المشاريع.",
-          "icon": "💡",
-          "features": ["التحليل التقني", "دراسات الجدوى", "تقييم المخاطر", "الابتكار"]
+          "id": "safety-consulting",
+          "title": "استشارات السلامة",
+          "description": "خدمات استشارية متخصصة لتطبيق خطط المراقبة والسلامة المعتمدة في الصناعة عبر العمليات الصناعية.",
+          "icon": "🛡️",
+          "features": ["تطوير خطط السلامة", "تقييم المخاطر", "استشارات الامتثال", "برامج التدريب"]
         },
         {
-          "id": "maintenance",
-          "title": "خدمات الصيانة",
-          "description": "خدمات الصيانة والدعم الشاملة لضمان الأداء الأمثل.",
+          "id": "maintenance-support",
+          "title": "الصيانة والدعم",
+          "description": "خدمات الصيانة والدعم التقني الشاملة لضمان الأداء الأمثل لجميع أنظمة PWAS.",
           "icon": "🔧",
-          "features": ["الصيانة الوقائية", "الإصلاحات الطارئة", "ترقية الأنظمة", "الدعم على مدار الساعة"]
+          "features": ["صيانة الأنظمة", "الدعم التقني", "تحديثات البرمجيات", "المساعدة على مدار الساعة"]
         }
       ]
     },
     "contact": {
       "title": "تواصل معنا",
-      "description": "تواصل معنا للاستفسارات التجارية أو معلومات الخدمة.",
-      "email": "info@arabengksa.com",
-      "phone": "+966-123-456-789",
-      "address": "الأحساء، المملكة العربية السعودية"
+      "description": "تواصل معنا للحصول على حلول السلامة الصناعية وتنفيذ أنظمة PWAS.",
+      "email": "sales@arabengksa.com",
+      "phone": "+966 50 900 9509",
+      "address": "المنطقة الشرقية – الأحساء – مبارز – 6856، المملكة العربية السعودية"
     }
   }
 }

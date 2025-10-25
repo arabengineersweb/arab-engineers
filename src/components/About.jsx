@@ -8,19 +8,24 @@ export default function About({lang}){
   
   const features = [
     {
-      icon: "🏗️",
-      title: lang === 'en' ? 'Construction Excellence' : 'التميز في البناء',
-      description: lang === 'en' ? 'Delivering high-quality construction projects with precision and innovation.' : 'نقدم مشاريع بناء عالية الجودة بدقة وابتكار.'
+      icon: "🏭",
+      title: lang === 'en' ? 'Industrial Specialization' : 'التخصص الصناعي',
+      description: lang === 'en' ? 'Focused on oil, gas, petrochemicals, power generation, and energy industries across Saudi Arabia.' : 'نركز على صناعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة في جميع أنحاء المملكة العربية السعودية.'
     },
     {
-      icon: "⚡",
-      title: lang === 'en' ? 'Innovation Focus' : 'التركيز على الابتكار',
-      description: lang === 'en' ? 'Leveraging cutting-edge technology and modern engineering solutions.' : 'نستفيد من أحدث التقنيات والحلول الهندسية الحديثة.'
+      icon: "🛡️",
+      title: lang === 'en' ? 'Safety Excellence' : 'التميز في السلامة',
+      description: lang === 'en' ? 'Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology.' : 'نطبق خطط المراقبة والسلامة المعتمدة في الصناعة مع تقنية PWAS المتطورة.'
     },
     {
-      icon: "🤝",
-      title: lang === 'en' ? 'Client Partnership' : 'شراكة العملاء',
-      description: lang === 'en' ? 'Building lasting relationships through transparent communication and trust.' : 'نبني علاقات دائمة من خلال التواصل الشفاف والثقة.'
+      icon: "🎯",
+      title: lang === 'en' ? 'Quality Commitment' : 'الالتزام بالجودة',
+      description: lang === 'en' ? 'Delivering high-quality services while maintaining our reputation as top-tier contractors.' : 'نقدم خدمات عالية الجودة مع الحفاظ على سمعتنا كمقاولين من الدرجة الأولى.'
+    },
+    {
+      icon: "🌱",
+      title: lang === 'en' ? 'Sustainability Focus' : 'التركيز على الاستدامة',
+      description: lang === 'en' ? 'Embracing innovation, development, and adhering to sustainability and social responsibility practices.' : 'نتبنى الابتكار والتطوير ونلتزم بممارسات الاستدامة والمسؤولية الاجتماعية.'
     }
   ]
   
@@ -88,20 +93,20 @@ export default function About({lang}){
         {/* Stats section */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
           <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>500+</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Projects Completed' : 'مشروع مكتمل'}</div>
+            <div className="text-4xl font-bold mb-2" style={{color: primary}}>4</div>
+            <div className="text-gray-600">{lang === 'en' ? 'PWAS Systems' : 'أنظمة PWAS'}</div>
           </div>
           <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>50+</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Expert Engineers' : 'مهندس خبير'}</div>
+            <div className="text-4xl font-bold mb-2" style={{color: primary}}>40m</div>
+            <div className="text-gray-600">{lang === 'en' ? 'Detection Range' : 'نطاق الكشف'}</div>
           </div>
           <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>100%</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Client Satisfaction' : 'رضا العملاء'}</div>
+            <div className="text-4xl font-bold mb-2" style={{color: primary}}>360°</div>
+            <div className="text-gray-600">{lang === 'en' ? 'Area Coverage' : 'تغطية المنطقة'}</div>
           </div>
           <div className="text-center p-6 bg-gray-50 rounded-2xl">
-            <div className="text-4xl font-bold mb-2" style={{color: primary}}>24/7</div>
-            <div className="text-gray-600">{lang === 'en' ? 'Support' : 'دعم'}</div>
+            <div className="text-4xl font-bold mb-2" style={{color: primary}}>90°C</div>
+            <div className="text-gray-600">{lang === 'en' ? 'Operating Temp' : 'درجة التشغيل'}</div>
           </div>
         </div>
       </div>
