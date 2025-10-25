@@ -31,7 +31,7 @@ export default function App(){
   return (
     <div className="min-h-screen">
       <Header lang={lang} setLang={setLang} />
-      <main className="pt-16">
+      <main>
         <Hero lang={lang} />
         <About lang={lang} />
         <ContactForm lang={lang} />

@@ -6,15 +6,79 @@ export default function Hero({lang}){
   const hero = getContent('hero', lang)
   const primary = getStyle('primaryColor')
   return (
-    <section id="home" className="pt-20">
-      <div className="max-w-6xl mx-auto px-6 py-12 md:flex md:items-center md:gap-8">
-        <div data-aos="fade-up" className="md:w-1/2">
-          <h1 className="font-bold" style={{fontSize: getStyle('headingSize'), color: primary}}>{hero.title}</h1>
-          <p className="mt-4" style={{fontSize: getStyle('textSize')}}>{hero.subtitle}</p>
-          <button className="mt-6 px-6 py-2 text-white rounded" style={{backgroundColor: primary}}>{hero.buttonText}</button>
-        </div>
-        <div data-aos="fade-left" className="md:w-1/2 mt-8 md:mt-0">
-          <img src={hero.image} alt="hero" className="w-full rounded shadow-lg"/>
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-10" style={{backgroundColor: primary}}></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
+      </div>
+      
+      <div className="relative max-w-7xl mx-auto px-6 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left content */}
+          <div data-aos="fade-up" className="space-y-8">
+            <div className="space-y-6">
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight" style={{color: primary}}>
+                {hero.title}
+              </h1>
+              <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-lg">
+                {hero.subtitle}
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                className="px-8 py-4 text-white font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl" 
+                style={{backgroundColor: primary}}
+              >
+                {hero.buttonText}
+              </button>
+              <button className="px-8 py-4 border-2 font-semibold rounded-full text-lg transition-all duration-300 hover:scale-105" style={{borderColor: primary, color: primary}}>
+                {lang === 'en' ? 'Learn More' : 'اعرف المزيد'}
+              </button>
+            </div>
+            
+            {/* Trust indicators */}
+            <div className="flex items-center gap-8 pt-8">
+              <div className="text-center">
+                <div className="text-2xl font-bold" style={{color: primary}}>500+</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'Projects' : 'مشاريع'}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold" style={{color: primary}}>15+</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'Years Experience' : 'سنوات خبرة'}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold" style={{color: primary}}>50+</div>
+                <div className="text-sm text-gray-600">{lang === 'en' ? 'Team Members' : 'أعضاء الفريق'}</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Right image */}
+          <div data-aos="fade-left" className="relative">
+            <div className="relative z-10">
+              <img 
+                src={hero.image} 
+                alt="hero" 
+                className="w-full h-auto rounded-2xl shadow-2xl"
+              />
+              {/* Floating card */}
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{backgroundColor: primary}}>
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">{lang === 'en' ? 'Innovation' : 'الابتكار'}</div>
+                    <div className="text-sm text-gray-600">{lang === 'en' ? 'At its finest' : 'في أبهى صوره'}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
