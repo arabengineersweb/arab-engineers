@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getStyle } from '../utils/styleManager'
+import { getContent } from '../utils/contentLoader'
 
-export default function Footer(){ 
+export default function Footer({ lang = 'en' }){ 
   const primary = getStyle('primaryColor')
+  const footer = getContent('footer', lang)
   
   return (
     <footer className="py-16 bg-gray-900 text-white relative overflow-hidden">
@@ -22,8 +24,7 @@ export default function Footer(){
               <div className="text-2xl font-bold">Arab Engineers</div>
             </Link>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-              Specialized in industrial safety solutions for Saudi Arabia's oil, gas, petrochemicals, and energy industries. 
-              Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology.
+              {footer.companyDescription}
             </p>
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors duration-300">
@@ -46,37 +47,40 @@ export default function Footer(){
           
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6">{footer.quickLinks?.title || 'Quick Links'}</h3>
             <ul className="space-y-3">
-              <li><Link to="/" className="text-gray-300 hover:text-white transition-colors duration-300">Home</Link></li>
-              <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">About Us</Link></li>
-              <li><Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300">Services</Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-300">Contact</Link></li>
+              {footer.quickLinks?.links?.map((link, index) => (
+                <li key={index}>
+                  <Link to={link.url} className="text-gray-300 hover:text-white transition-colors duration-300">
+                    {link.text}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
+            <h3 className="text-lg font-semibold mb-6">{footer.contactInfo?.title || 'Contact Info'}</h3>
             <div className="space-y-3 text-gray-300">
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia</span>
+                <span>{footer.contactInfo?.address || 'Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia'}</span>
               </div>
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span>+966 50 900 9509</span>
+                <span>{footer.contactInfo?.phone || '+966 50 900 9509'}</span>
               </div>
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span>sales@arabengksa.com</span>
+                <span>{footer.contactInfo?.email || 'sales@arabengksa.com'}</span>
               </div>
             </div>
           </div>
@@ -85,11 +89,15 @@ export default function Footer(){
         {/* Bottom bar */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Arab Engineers — All rights reserved.
+            {footer.bottomBar?.copyright?.replace('{year}', new Date().getFullYear()) || `© ${new Date().getFullYear()} Arab Engineers — All rights reserved.`}
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
+            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+              {footer.bottomBar?.privacyPolicy || 'Privacy Policy'}
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+              {footer.bottomBar?.termsOfService || 'Terms of Service'}
+            </a>
           </div>
         </div>
       </div>

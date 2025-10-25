@@ -6,7 +6,7 @@ import originalContent from '../content/content.json'
 import originalStyles from '../content/styles.json'
 
 export default function AdminPanel({ onLogout }) {
-  const [activeTab, setActiveTab] = useState('content')
+  const [activeTab, setActiveTab] = useState('styles')
   const [content, setContent] = useState({})
   const [styles, setStyles] = useState({})
   const [lang, setLang] = useState('en')
@@ -76,11 +76,14 @@ export default function AdminPanel({ onLogout }) {
     })
   }, [lang, content])
 
-  const getOriginalValue = (section, field, index = null, subField = null) => {
+  const getOriginalValue = (section, field, index = null, subField = null, subIndex = null, subSubField = null) => {
     // Get original value from content.json
     const originalData = originalContent[lang] || originalContent['en']
     
-    if (index !== null && subField !== null) {
+    if (subIndex !== null && subSubField !== null) {
+      // Handle deeply nested arrays like services.process.steps[index].subField
+      return originalData[section]?.[field]?.[index]?.[subField]?.[subIndex]?.[subSubField] || ''
+    } else if (index !== null && subField !== null) {
       // Handle nested arrays like features[index].subField
       return originalData[section]?.[field]?.[index]?.[subField] || ''
     } else if (index !== null) {
@@ -195,6 +198,41 @@ export default function AdminPanel({ onLogout }) {
     })
   }
 
+  const handleProcessStepChange = (stepIndex, field, value) => {
+    const originalValue = getOriginalValue('services', 'process', 'steps', stepIndex, field)
+    
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        services: {
+          ...prev[lang].services,
+          process: {
+            ...prev[lang].services.process,
+            steps: (prev[lang].services.process?.steps || [
+              { step: '01', title: 'Consultation', description: 'Understanding your needs and project requirements' },
+              { step: '02', title: 'Planning', description: 'Detailed project planning and strategy development' },
+              { step: '03', title: 'Execution', description: 'Professional implementation with quality control' },
+              { step: '04', title: 'Support', description: 'Ongoing maintenance and support services' }
+            ]).map((step, index) => 
+              index === stepIndex ? { ...step, [field]: value } : step
+            )
+          }
+        }
+      }
+    }))
+    
+    updatePendingChange({
+      type: 'content',
+      section: 'services',
+      field: `process_step_${stepIndex}_${field}`,
+      action: `Changed Process Step ${stepIndex + 1} ${field}`,
+      oldValue: originalValue,
+      newValue: value,
+      originalValue: originalValue
+    })
+  }
+
   const handleBenefitChange = (benefitIndex, value) => {
     const originalData = originalContent[lang] || originalContent['en']
     const originalValue = originalData?.contact?.whyChooseUs?.benefits?.[benefitIndex] || ''
@@ -220,6 +258,41 @@ export default function AdminPanel({ onLogout }) {
       section: 'contact',
       field: `benefit_${benefitIndex}`,
       action: `Changed Contact Benefit ${benefitIndex + 1}`,
+      oldValue: originalValue,
+      newValue: value,
+      originalValue: originalValue
+    })
+  }
+
+  const handleFooterLinkChange = (linkIndex, field, value) => {
+    const originalValue = getOriginalValue('footer', 'quickLinks', 'links', linkIndex, field)
+    
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        footer: {
+          ...prev[lang].footer,
+          quickLinks: {
+            ...prev[lang].footer.quickLinks,
+            links: (prev[lang].footer?.quickLinks?.links || [
+              { text: 'Home', url: '/' },
+              { text: 'About Us', url: '/about' },
+              { text: 'Services', url: '/services' },
+              { text: 'Contact', url: '/contact' }
+            ]).map((link, index) => 
+              index === linkIndex ? { ...link, [field]: value } : link
+            )
+          }
+        }
+      }
+    }))
+    
+    updatePendingChange({
+      type: 'content',
+      section: 'footer',
+      field: `quickLink_${linkIndex}_${field}`,
+      action: `Changed Footer Link ${linkIndex + 1} ${field}`,
       oldValue: originalValue,
       newValue: value,
       originalValue: originalValue
@@ -472,14 +545,6 @@ export default function AdminPanel({ onLogout }) {
           <div className="w-64 bg-white rounded-lg shadow-sm p-6">
             <nav className="space-y-2">
               <button
-                onClick={() => setActiveTab('content')}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
-                  activeTab === 'content' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                Content Management
-              </button>
-              <button
                 onClick={() => setActiveTab('styles')}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
                   activeTab === 'styles' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
@@ -520,6 +585,14 @@ export default function AdminPanel({ onLogout }) {
                 Contact Section
               </button>
               <button
+                onClick={() => setActiveTab('footer')}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'footer' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                Footer Section
+              </button>
+              <button
                 onClick={() => setActiveTab('history')}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
                   activeTab === 'history' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
@@ -532,12 +605,6 @@ export default function AdminPanel({ onLogout }) {
 
           {/* Main Content */}
           <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
-            {activeTab === 'content' && (
-              <div>
-                <h2 className="text-xl font-semibold mb-6">Content Management</h2>
-                <p className="text-gray-600">Select a section from the sidebar to edit content.</p>
-              </div>
-            )}
 
             {activeTab === 'styles' && (
               <div>
@@ -720,6 +787,57 @@ export default function AdminPanel({ onLogout }) {
                     </div>
                   ))}
                 </div>
+                
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium mb-4">Our Process</h3>
+                  <TextInput
+                    value={content[lang]?.services?.process?.title || 'Our Process'}
+                    onChange={(value) => handleContentChange('services', 'process', { 
+                      ...(content[lang]?.services?.process || {}), 
+                      title: value 
+                    })}
+                    label="Process Title"
+                  />
+                  <TextArea
+                    value={content[lang]?.services?.process?.description || 'We follow a systematic approach to deliver exceptional results for every project.'}
+                    onChange={(value) => handleContentChange('services', 'process', { 
+                      ...(content[lang]?.services?.process || {}), 
+                      description: value 
+                    })}
+                    label="Process Description"
+                    rows={2}
+                  />
+                  
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Process Steps</label>
+                    {(content[lang]?.services?.process?.steps || [
+                      { step: '01', title: 'Consultation', description: 'Understanding your needs and project requirements' },
+                      { step: '02', title: 'Planning', description: 'Detailed project planning and strategy development' },
+                      { step: '03', title: 'Execution', description: 'Professional implementation with quality control' },
+                      { step: '04', title: 'Support', description: 'Ongoing maintenance and support services' }
+                    ]).map((step, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 className="font-medium mb-3">Step {index + 1}</h4>
+                        <TextInput
+                          value={step.step}
+                          onChange={(value) => handleProcessStepChange(index, 'step', value)}
+                          label="Step Number"
+                        />
+                        <TextInput
+                          value={step.title}
+                          onChange={(value) => handleProcessStepChange(index, 'title', value)}
+                          label="Step Title"
+                        />
+                        <TextArea
+                          value={step.description}
+                          onChange={(value) => handleProcessStepChange(index, 'description', value)}
+                          label="Step Description"
+                          rows={2}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
 
@@ -772,6 +890,123 @@ export default function AdminPanel({ onLogout }) {
                       />
                     ))}
                   </div>
+                </div>
+              </div>
+            )}
+            
+            {activeTab === 'footer' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-6">Footer Section</h2>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Company Description</h3>
+                  <TextArea
+                    value={content[lang]?.footer?.companyDescription || 'Specialized in industrial safety solutions for Saudi Arabia\'s oil, gas, petrochemicals, and energy industries. Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology.'}
+                    onChange={(value) => handleContentChange('footer', 'companyDescription', value)}
+                    label="Company Description"
+                    rows={3}
+                  />
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Quick Links</h3>
+                  <TextInput
+                    value={content[lang]?.footer?.quickLinks?.title || 'Quick Links'}
+                    onChange={(value) => handleContentChange('footer', 'quickLinks', { 
+                      ...(content[lang]?.footer?.quickLinks || {}), 
+                      title: value 
+                    })}
+                    label="Quick Links Title"
+                  />
+                  
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Navigation Links</label>
+                    {(content[lang]?.footer?.quickLinks?.links || [
+                      { text: 'Home', url: '/' },
+                      { text: 'About Us', url: '/about' },
+                      { text: 'Services', url: '/services' },
+                      { text: 'Contact', url: '/contact' }
+                    ]).map((link, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 className="font-medium mb-3">Link {index + 1}</h4>
+                        <TextInput
+                          value={link.text}
+                          onChange={(value) => handleFooterLinkChange(index, 'text', value)}
+                          label="Link Text"
+                        />
+                        <TextInput
+                          value={link.url}
+                          onChange={(value) => handleFooterLinkChange(index, 'url', value)}
+                          label="Link URL"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Contact Information</h3>
+                  <TextInput
+                    value={content[lang]?.footer?.contactInfo?.title || 'Contact Info'}
+                    onChange={(value) => handleContentChange('footer', 'contactInfo', { 
+                      ...(content[lang]?.footer?.contactInfo || {}), 
+                      title: value 
+                    })}
+                    label="Contact Info Title"
+                  />
+                  <TextArea
+                    value={content[lang]?.footer?.contactInfo?.address || 'Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia'}
+                    onChange={(value) => handleContentChange('footer', 'contactInfo', { 
+                      ...(content[lang]?.footer?.contactInfo || {}), 
+                      address: value 
+                    })}
+                    label="Address"
+                    rows={2}
+                  />
+                  <TextInput
+                    value={content[lang]?.footer?.contactInfo?.phone || '+966 50 900 9509'}
+                    onChange={(value) => handleContentChange('footer', 'contactInfo', { 
+                      ...(content[lang]?.footer?.contactInfo || {}), 
+                      phone: value 
+                    })}
+                    label="Phone Number"
+                  />
+                  <TextInput
+                    value={content[lang]?.footer?.contactInfo?.email || 'sales@arabengksa.com'}
+                    onChange={(value) => handleContentChange('footer', 'contactInfo', { 
+                      ...(content[lang]?.footer?.contactInfo || {}), 
+                      email: value 
+                    })}
+                    label="Email Address"
+                  />
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Bottom Bar</h3>
+                  <TextInput
+                    value={content[lang]?.footer?.bottomBar?.copyright || '© {year} Arab Engineers — All rights reserved.'}
+                    onChange={(value) => handleContentChange('footer', 'bottomBar', { 
+                      ...(content[lang]?.footer?.bottomBar || {}), 
+                      copyright: value 
+                    })}
+                    label="Copyright Text (use {year} for dynamic year)"
+                  />
+                  <TextInput
+                    value={content[lang]?.footer?.bottomBar?.privacyPolicy || 'Privacy Policy'}
+                    onChange={(value) => handleContentChange('footer', 'bottomBar', { 
+                      ...(content[lang]?.footer?.bottomBar || {}), 
+                      privacyPolicy: value 
+                    })}
+                    label="Privacy Policy Text"
+                  />
+                  <TextInput
+                    value={content[lang]?.footer?.bottomBar?.termsOfService || 'Terms of Service'}
+                    onChange={(value) => handleContentChange('footer', 'bottomBar', { 
+                      ...(content[lang]?.footer?.bottomBar || {}), 
+                      termsOfService: value 
+                    })}
+                    label="Terms of Service Text"
+                  />
                 </div>
               </div>
             )}

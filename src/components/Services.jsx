@@ -18,13 +18,13 @@ export default function Services({lang}){
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{color: primary}}>
+          <h2 className="font-bold mb-6" style={{color: primary, fontSize: 'var(--heading-size)'}}>
             {servicesData.title}
           </h2>
-          <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
             {servicesData.subtitle}
           </p>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
             {servicesData.description}
           </p>
         </div>
@@ -84,19 +84,19 @@ export default function Services({lang}){
         {/* Process Section */}
         <div className="bg-white rounded-3xl p-12 shadow-xl" data-aos="fade-up">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4" style={{color: primary}}>
-              {lang === 'en' ? 'Our Process' : 'عملنا'}
+            <h3 className="font-bold mb-4" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+              {servicesData.process?.title || (lang === 'en' ? 'Our Process' : 'عملنا')}
             </h3>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {lang === 'en' 
+            <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
+              {servicesData.process?.description || (lang === 'en' 
                 ? 'We follow a systematic approach to deliver exceptional results for every project.'
                 : 'نتبع نهجًا منهجيًا لتقديم نتائج استثنائية لكل مشروع.'
-              }
+              )}
             </p>
           </div>
           
           <div className="grid md:grid-cols-4 gap-8">
-            {[
+            {(servicesData.process?.steps || [
               {
                 step: lang === 'en' ? '01' : '٠١',
                 title: lang === 'en' ? 'Consultation' : 'الاستشارة',
@@ -117,15 +117,15 @@ export default function Services({lang}){
                 title: lang === 'en' ? 'Support' : 'الدعم',
                 description: lang === 'en' ? 'Ongoing maintenance and support services' : 'خدمات الصيانة والدعم المستمر'
               }
-            ].map((process, index) => (
+            ]).map((process, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-white font-bold text-lg" style={{backgroundColor: primary}}>
                   {process.step}
                 </div>
-                <h4 className="text-lg font-semibold mb-2 text-gray-900">
+                <h4 className="font-semibold mb-2 text-gray-900" style={{fontSize: 'var(--text-size)'}}>
                   {process.title}
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
                   {process.description}
                 </p>
               </div>

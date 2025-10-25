@@ -20,10 +20,10 @@ export default function About({lang}){
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{color: primary}}>
+          <h2 className="font-bold mb-6" style={{color: primary, fontSize: 'var(--heading-size)'}}>
             {about.title}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
             {about.text}
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function About({lang}){
             {features.map((feature, index) => (
               <div key={index} className="flex gap-6 group">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl bg-gray-50 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300" style={{backgroundColor: 'var(--secondary)'}}>
                     {feature.icon}
                   </div>
                 </div>
@@ -73,7 +73,7 @@ export default function About({lang}){
         {/* Stats section */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
           {stats.map((stat, index) => (
-            <div key={index} className="text-center p-6 bg-gray-50 rounded-2xl">
+            <div key={index} className="text-center p-6 rounded-2xl" style={{backgroundColor: 'var(--secondary)'}}>
               <div className="text-4xl font-bold mb-2" style={{color: primary}}>{stat.value}</div>
               <div className="text-gray-600">{stat.label}</div>
             </div>

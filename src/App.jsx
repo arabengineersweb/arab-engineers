@@ -54,7 +54,7 @@ export default function App(){
               <main>
                 <HomePage lang={lang} />
               </main>
-              <Footer />
+                  <Footer lang={lang} />
             </>
           } />
           <Route path="/about" element={
@@ -63,7 +63,7 @@ export default function App(){
               <main>
                 <AboutPage lang={lang} />
               </main>
-              <Footer />
+                  <Footer lang={lang} />
             </>
           } />
           <Route path="/services" element={
@@ -72,7 +72,7 @@ export default function App(){
               <main>
                 <ServicesPage lang={lang} />
               </main>
-              <Footer />
+                  <Footer lang={lang} />
             </>
           } />
           <Route path="/contact" element={
@@ -81,7 +81,7 @@ export default function App(){
               <main>
                 <ContactPage lang={lang} />
               </main>
-              <Footer />
+                  <Footer lang={lang} />
             </>
           } />
         </Routes>

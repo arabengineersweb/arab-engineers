@@ -19,10 +19,10 @@ export default function Hero({lang}){
           {/* Left content */}
           <div data-aos="fade-up" className="space-y-8">
             <div className="space-y-6">
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight" style={{color: primary}}>
+              <h1 className="font-bold leading-tight" style={{color: primary, fontSize: 'var(--heading-size)'}}>
                 {hero.title}
               </h1>
-              <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-lg">
+              <p className="text-gray-600 leading-relaxed max-w-lg" style={{fontSize: 'var(--text-size)'}}>
                 {hero.subtitle}
               </p>
             </div>

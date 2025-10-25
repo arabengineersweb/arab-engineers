@@ -98,7 +98,33 @@
           "icon": "🔧",
           "features": ["System maintenance", "Technical support", "Software updates", "24/7 assistance"]
         }
-      ]
+      ],
+      "process": {
+        "title": "Our Process",
+        "description": "We follow a systematic approach to deliver exceptional results for every project.",
+        "steps": [
+          {
+            "step": "01",
+            "title": "Consultation",
+            "description": "Understanding your needs and project requirements"
+          },
+          {
+            "step": "02", 
+            "title": "Planning",
+            "description": "Detailed project planning and strategy development"
+          },
+          {
+            "step": "03",
+            "title": "Execution", 
+            "description": "Professional implementation with quality control"
+          },
+          {
+            "step": "04",
+            "title": "Support",
+            "description": "Ongoing maintenance and support services"
+          }
+        ]
+      }
     },
     "contact": {
       "title": "Contact Us",
@@ -114,6 +140,29 @@
           "24/7 customer support",
           "100% client satisfaction guarantee"
         ]
+      }
+    },
+    "footer": {
+      "companyDescription": "Specialized in industrial safety solutions for Saudi Arabia's oil, gas, petrochemicals, and energy industries. Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology.",
+      "quickLinks": {
+        "title": "Quick Links",
+        "links": [
+          { "text": "Home", "url": "/" },
+          { "text": "About Us", "url": "/about" },
+          { "text": "Services", "url": "/services" },
+          { "text": "Contact", "url": "/contact" }
+        ]
+      },
+      "contactInfo": {
+        "title": "Contact Info",
+        "address": "Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia",
+        "phone": "+966 50 900 9509",
+        "email": "sales@arabengksa.com"
+      },
+      "bottomBar": {
+        "copyright": "© {year} Arab Engineers — All rights reserved.",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service"
       }
     }
   },
@@ -216,7 +265,33 @@
           "icon": "🔧",
           "features": ["صيانة الأنظمة", "الدعم التقني", "تحديثات البرمجيات", "المساعدة على مدار الساعة"]
         }
-      ]
+      ],
+      "process": {
+        "title": "عملنا",
+        "description": "نتبع نهجًا منهجيًا لتقديم نتائج استثنائية لكل مشروع.",
+        "steps": [
+          {
+            "step": "٠١",
+            "title": "الاستشارة",
+            "description": "فهم احتياجاتك ومتطلبات المشروع"
+          },
+          {
+            "step": "٠٢", 
+            "title": "التخطيط",
+            "description": "التخطيط التفصيلي للمشروع وتطوير الاستراتيجية"
+          },
+          {
+            "step": "٠٣",
+            "title": "التنفيذ", 
+            "description": "التنفيذ المهني مع ضبط الجودة"
+          },
+          {
+            "step": "٠٤",
+            "title": "الدعم",
+            "description": "خدمات الصيانة والدعم المستمر"
+          }
+        ]
+      }
     },
     "contact": {
       "title": "تواصل معنا",
@@ -232,6 +307,29 @@
           "دعم العملاء على مدار الساعة",
           "ضمان رضا العملاء 100%"
         ]
+      }
+    },
+    "footer": {
+      "companyDescription": "متخصصون في حلول السلامة الصناعية لصناعات النفط والغاز والبتروكيماويات والطاقة في المملكة العربية السعودية. نطبق خطط المراقبة والسلامة المعتمدة في الصناعة بأحدث تقنيات PWAS.",
+      "quickLinks": {
+        "title": "روابط سريعة",
+        "links": [
+          { "text": "الرئيسية", "url": "/" },
+          { "text": "من نحن", "url": "/about" },
+          { "text": "خدماتنا", "url": "/services" },
+          { "text": "تواصل معنا", "url": "/contact" }
+        ]
+      },
+      "contactInfo": {
+        "title": "معلومات الاتصال",
+        "address": "المنطقة الشرقية – الأحساء – مبارز – 6856، المملكة العربية السعودية",
+        "phone": "+966 50 900 9509",
+        "email": "sales@arabengksa.com"
+      },
+      "bottomBar": {
+        "copyright": "© {year} المهندسون العرب — جميع الحقوق محفوظة.",
+        "privacyPolicy": "سياسة الخصوصية",
+        "termsOfService": "شروط الخدمة"
       }
     }
   }
