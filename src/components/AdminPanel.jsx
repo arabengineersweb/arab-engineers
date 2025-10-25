@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { getContent } from '../utils/contentLoader'
 import { getStyle } from '../utils/styleManager'
 import { adminUtils } from '../utils/adminUtils'
+import originalContent from '../content/content.json'
+import originalStyles from '../content/styles.json'
 
 export default function AdminPanel({ onLogout }) {
   const [activeTab, setActiveTab] = useState('content')
@@ -69,16 +71,20 @@ export default function AdminPanel({ onLogout }) {
     })
   }, [lang, content])
 
-  const getOriginalValue = (section, field) => {
-    // This would ideally load from the original content.json
-    // For now, we'll use a simple approach
-    const originalContent = {
-      hero: { title: 'Arab Engineers', subtitle: 'Specialized Industrial Safety Solutions for Saudi Arabia', buttonText: 'Discover Our Services' },
-      about: { title: 'About Us', text: 'We are a company based in Saudi Arabia, specializing in the industrial sector...' },
-      services: { title: 'Our Services', subtitle: 'Advanced Industrial Safety Solutions', description: 'We specialize in Proximity Warning Alert Systems...' },
-      contact: { title: 'Contact Us', description: 'Get in touch with us for industrial safety solutions...', email: 'sales@arabengksa.com', phone: '+966 50 900 9509', address: 'Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia' }
+  const getOriginalValue = (section, field, index = null, subField = null) => {
+    // Get original value from content.json
+    const originalData = originalContent[lang] || originalContent['en']
+    
+    if (index !== null && subField !== null) {
+      // Handle nested arrays like features[index].subField
+      return originalData[section]?.[field]?.[index]?.[subField] || ''
+    } else if (index !== null) {
+      // Handle array items like benefits[index]
+      return originalData[section]?.[field]?.[index] || ''
+    } else {
+      // Handle simple fields
+      return originalData[section]?.[field] || ''
     }
-    return originalContent[section]?.[field] || ''
   }
 
   const updatePendingChange = useCallback((change) => {
@@ -131,6 +137,8 @@ export default function AdminPanel({ onLogout }) {
   }
 
   const handleFeatureChange = (featureIndex, field, value) => {
+    const originalValue = getOriginalValue('about', 'features', featureIndex, field)
+    
     setContent(prev => ({
       ...prev,
       [lang]: {
@@ -143,9 +151,21 @@ export default function AdminPanel({ onLogout }) {
         }
       }
     }))
+    
+    updatePendingChange({
+      type: 'content',
+      section: 'about',
+      field: `feature_${featureIndex}_${field}`,
+      action: `Changed About Feature ${featureIndex + 1} ${field}`,
+      oldValue: originalValue,
+      newValue: value,
+      originalValue: originalValue
+    })
   }
 
   const handleStatChange = (statIndex, field, value) => {
+    const originalValue = getOriginalValue('about', 'stats', statIndex, field)
+    
     setContent(prev => ({
       ...prev,
       [lang]: {
@@ -158,9 +178,22 @@ export default function AdminPanel({ onLogout }) {
         }
       }
     }))
+    
+    updatePendingChange({
+      type: 'content',
+      section: 'about',
+      field: `stat_${statIndex}_${field}`,
+      action: `Changed About Stat ${statIndex + 1} ${field}`,
+      oldValue: originalValue,
+      newValue: value,
+      originalValue: originalValue
+    })
   }
 
   const handleBenefitChange = (benefitIndex, value) => {
+    const originalData = originalContent[lang] || originalContent['en']
+    const originalValue = originalData?.contact?.whyChooseUs?.benefits?.[benefitIndex] || ''
+    
     setContent(prev => ({
       ...prev,
       [lang]: {
@@ -176,6 +209,16 @@ export default function AdminPanel({ onLogout }) {
         }
       }
     }))
+    
+    updatePendingChange({
+      type: 'content',
+      section: 'contact',
+      field: `benefit_${benefitIndex}`,
+      action: `Changed Contact Benefit ${benefitIndex + 1}`,
+      oldValue: originalValue,
+      newValue: value,
+      originalValue: originalValue
+    })
   }
 
   const handleStyleChange = useCallback((field, value) => {
@@ -200,13 +243,7 @@ export default function AdminPanel({ onLogout }) {
   }, [styles])
 
   const getOriginalStyleValue = (field) => {
-    const originalStyles = {
-      primaryColor: '#004C97',
-      secondaryColor: '#F1F5F9',
-      fontFamily: 'Poppins, sans-serif',
-      headingSize: '2.5',
-      textSize: '1.1'
-    }
+    // Get original value from styles.json
     return originalStyles[field] || ''
   }
 
@@ -398,11 +435,9 @@ export default function AdminPanel({ onLogout }) {
               </div>
               <button
                 onClick={saveContent}
-                className={`px-4 py-2 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  pendingChanges.length > 0 ? 'bg-blue-600' : 'bg-gray-400'
-                }`}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                Save Changes {pendingChanges.length > 0 && `(${pendingChanges.length})`}
+                Save Changes
               </button>
               <button
                 onClick={resetToOriginal}
