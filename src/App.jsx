@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
 import ContactPage from './pages/ContactPage'
+import NotFoundPage from './pages/NotFoundPage'
 import AdminPage from './pages/AdminPage'
 import { getStyle } from './utils/styleManager'
 import { adminUtils } from './utils/adminUtils'
@@ -82,6 +83,17 @@ export default function App(){
                 <ContactPage lang={lang} />
               </main>
                   <Footer lang={lang} />
+            </>
+          } />
+          
+          {/* 404 Error Page - Catch all unmatched routes */}
+          <Route path="*" element={
+            <>
+              <Header lang={lang} setLang={setLang} />
+              <main>
+                <NotFoundPage lang={lang} setLang={setLang} />
+              </main>
+              <Footer lang={lang} />
             </>
           } />
         </Routes>
