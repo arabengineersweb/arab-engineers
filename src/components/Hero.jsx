@@ -14,12 +14,15 @@ export default function Hero({lang}){
         <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
       </div>
       
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
+      <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
           <div data-aos="fade-up" className="space-y-8">
             <div className="space-y-6">
-              <h1 className="font-bold leading-tight" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+              <h1 className="font-bold leading-tight" style={{
+                color: primary, 
+                fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
+              }}>
                 {hero.title}
               </h1>
               <p className="text-gray-600 leading-relaxed max-w-lg" style={{fontSize: 'var(--text-size)'}}>

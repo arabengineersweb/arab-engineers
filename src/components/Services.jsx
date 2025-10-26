@@ -18,7 +18,10 @@ export default function Services({lang}){
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="font-bold mb-6" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+          <h2 className="font-bold mb-6" style={{
+            color: primary, 
+            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+          }}>
             {servicesData.title}
           </h2>
           <p className="text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
@@ -84,7 +87,10 @@ export default function Services({lang}){
         {/* Process Section */}
         <div className="bg-white rounded-3xl p-12 shadow-xl" data-aos="fade-up">
           <div className="text-center mb-12">
-            <h3 className="font-bold mb-4" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+            <h3 className="font-bold mb-4" style={{
+              color: primary, 
+              fontSize: 'clamp(1.5rem, 3.5vw, calc(var(--heading-size) * 0.8))'
+            }}>
               {servicesData.process?.title || (lang === 'en' ? 'Our Process' : 'عملنا')}
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>

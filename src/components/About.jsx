@@ -20,7 +20,10 @@ export default function About({lang}){
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="font-bold mb-6" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+          <h2 className="font-bold mb-6" style={{
+            color: primary, 
+            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+          }}>
             {about.title}
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>

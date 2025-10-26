@@ -29,7 +29,10 @@ export default function ContactForm({lang}){
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h3 className="font-bold mb-6" style={{color: primary, fontSize: 'var(--heading-size)'}}>
+          <h3 className="font-bold mb-6" style={{
+            color: primary, 
+            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+          }}>
             {contact.title}
           </h3>
           <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
