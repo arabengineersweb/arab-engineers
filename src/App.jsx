@@ -55,7 +55,7 @@ export default function App(){
       <div className="min-h-screen">
         <Routes>
           {/* Admin route with unique, hard-to-guess URL */}
-          <Route path="/admin-panel-7x9k2m8n" element={<AdminPage />} />
+          <Route path="/admin-panel-arabengksa2024" element={<AdminPage />} />
           
           {/* Public routes */}
           <Route path="/" element={
