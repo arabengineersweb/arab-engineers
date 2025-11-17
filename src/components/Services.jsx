@@ -15,7 +15,8 @@ export default function Services({lang}){
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="font-bold mb-6" style={{
             color: primary, 
-            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+            // Larger minimum for better readability on mobile
+            fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
           }}>
             {servicesData.title}
           </h2>
@@ -113,7 +114,8 @@ export default function Services({lang}){
           <div className="text-center mb-12">
             <h3 className="font-bold mb-4" style={{
               color: primary, 
-              fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+              // Larger minimum for better readability on mobile
+              fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
             }}>
               {lang === 'en' ? 'Our Features' : 'ميزاتنا'}
             </h3>

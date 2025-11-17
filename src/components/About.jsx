@@ -17,7 +17,8 @@ export default function About({lang}){
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="font-bold mb-6" style={{
             color: primary, 
-            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+            // Increase minimum size so headings are larger on small screens
+            fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
           }}>
             {about.title}
           </h2>

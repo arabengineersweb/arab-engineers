@@ -16,7 +16,9 @@ export default function Hero({lang}){
             <div className="space-y-6">
               <h1 className="font-bold leading-tight" style={{
                 color: primary, 
-                fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
+                // Slightly larger on mobile with a higher minimum,
+                // while keeping the same max desktop size
+                fontSize: 'clamp(2.3rem, 6vw, var(--heading-size))'
               }}>
                 {hero.title}
               </h1>

@@ -26,7 +26,8 @@ export default function ContactForm({lang}){
         <div className="text-center mb-16" data-aos="fade-up">
           <h3 className="font-bold mb-6" style={{
             color: primary, 
-            fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+            // Larger on mobile via increased minimum
+            fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
           }}>
             {contact.title}
           </h3>
