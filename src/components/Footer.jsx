@@ -9,18 +9,16 @@ export default function Footer({ lang = 'en' }){
   
   return (
     <footer className="py-16 bg-gray-900 text-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 right-10 w-64 h-64 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-        <div className="absolute bottom-10 left-10 w-48 h-48 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-      </div>
-      
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-6">
-              <img src="/assets/logo.png" alt="logo" className="h-12 w-12 object-contain"/>
+              <img 
+                src={getContent('images', lang)?.logo || '/assets/logo.png'} 
+                alt="logo" 
+                className="h-12 w-12 object-contain"
+              />
               <div className="text-2xl font-bold">Arab Engineers</div>
             </Link>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">

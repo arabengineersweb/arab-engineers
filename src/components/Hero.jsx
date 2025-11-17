@@ -8,11 +8,6 @@ export default function Hero({lang}){
   const primary = getStyle('primaryColor')
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-10" style={{backgroundColor: primary}}></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-      </div>
       
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">

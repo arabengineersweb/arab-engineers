@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { getContent } from '../utils/contentLoader'
 
 export default function Header({lang, setLang}){
   const [isScrolled, setIsScrolled] = useState(false)
@@ -36,6 +37,11 @@ export default function Header({lang, setLang}){
     }
   }, [isMobileMenuOpen])
   
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [location.pathname])
+  
   const isActive = (path) => {
     return location.pathname === path
   }
@@ -44,21 +50,34 @@ export default function Header({lang, setLang}){
     setIsMobileMenuOpen(false)
   }
   
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  
+  const handleNavClick = () => {
+    scrollToTop()
+    closeMobileMenu()
+  }
+  
   return (
     <header className={`w-full py-4 px-6 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
         ? 'bg-white/95 backdrop-blur-md shadow-lg' 
         : 'bg-white shadow-sm'
     }`}>
-      <Link to="/" className="flex items-center gap-3">
-        <img src="/assets/logo.png" alt="logo" className="h-12 w-12 object-contain"/>
-        <div className="text-xl font-bold" style={{color: '#004C97'}}>Arab Engineers</div>
+      <Link to="/" onClick={scrollToTop} className="flex items-center">
+        <img 
+          src={getContent('images', lang)?.logo || '/assets/logo.png'} 
+          alt="logo" 
+          className="h-20 w-20 object-contain"
+        />
       </Link>
       
       <div className="flex items-center gap-6">
         <nav className="hidden md:flex gap-8">
           <Link 
             to="/" 
+            onClick={scrollToTop}
             className={`transition-colors duration-300 font-medium ${
               isActive('/') ? 'text-blue-700' : 'hover:text-blue-700'
             }`}
@@ -67,6 +86,7 @@ export default function Header({lang, setLang}){
           </Link>
           <Link 
             to="/about" 
+            onClick={scrollToTop}
             className={`transition-colors duration-300 font-medium ${
               isActive('/about') ? 'text-blue-700' : 'hover:text-blue-700'
             }`}
@@ -75,6 +95,7 @@ export default function Header({lang, setLang}){
           </Link>
           <Link 
             to="/services" 
+            onClick={scrollToTop}
             className={`transition-colors duration-300 font-medium ${
               isActive('/services') ? 'text-blue-700' : 'hover:text-blue-700'
             }`}
@@ -83,6 +104,7 @@ export default function Header({lang, setLang}){
           </Link>
           <Link 
             to="/contact" 
+            onClick={scrollToTop}
             className={`transition-colors duration-300 font-medium ${
               isActive('/contact') ? 'text-blue-700' : 'hover:text-blue-700'
             }`}
@@ -97,7 +119,6 @@ export default function Header({lang, setLang}){
             className="px-4 py-2 border-2 rounded-full font-medium transition-all duration-300 hover:scale-105"
             style={{
               borderColor: '#004C97',
-              color: '#004C97',
               backgroundColor: lang === 'ar' ? '#004C97' : 'transparent',
               color: lang === 'ar' ? 'white' : '#004C97'
             }}
@@ -127,7 +148,7 @@ export default function Header({lang, setLang}){
           <nav className="px-6 py-4 space-y-4">
             <Link 
               to="/" 
-              onClick={closeMobileMenu}
+              onClick={handleNavClick}
               className={`block py-2 transition-colors duration-300 font-medium ${
                 isActive('/') ? 'text-blue-700' : 'hover:text-blue-700'
               }`}
@@ -136,7 +157,7 @@ export default function Header({lang, setLang}){
             </Link>
             <Link 
               to="/about" 
-              onClick={closeMobileMenu}
+              onClick={handleNavClick}
               className={`block py-2 transition-colors duration-300 font-medium ${
                 isActive('/about') ? 'text-blue-700' : 'hover:text-blue-700'
               }`}
@@ -145,7 +166,7 @@ export default function Header({lang, setLang}){
             </Link>
             <Link 
               to="/services" 
-              onClick={closeMobileMenu}
+              onClick={handleNavClick}
               className={`block py-2 transition-colors duration-300 font-medium ${
                 isActive('/services') ? 'text-blue-700' : 'hover:text-blue-700'
               }`}
@@ -154,7 +175,7 @@ export default function Header({lang, setLang}){
             </Link>
             <Link 
               to="/contact" 
-              onClick={closeMobileMenu}
+              onClick={handleNavClick}
               className={`block py-2 transition-colors duration-300 font-medium ${
                 isActive('/contact') ? 'text-blue-700' : 'hover:text-blue-700'
               }`}

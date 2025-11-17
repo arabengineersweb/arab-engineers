@@ -9,11 +9,6 @@ export default function Services({lang}){
   
   return (
     <section id="services" className="pt-32 py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-      </div>
       
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -34,25 +29,52 @@ export default function Services({lang}){
         
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {servicesData.services.map((service, index) => (
+          {servicesData.services.map((service, index) => {
+            // Map service IDs to image names
+            const serviceImageMap = {
+              'non-tag-pwas': '/assets/non-tag-based.jpg',
+              'sensor-tag-pwas': '/assets/sensor-based.jpg',
+              'tag-based-pwas': '/assets/tag-based.jpg',
+              'ai-pwas': '/assets/ai-based.jpg',
+              'safety-consulting': '/assets/safety.jpg',
+              'maintenance-support': '/assets/maintainace.jpg'
+            }
+            const defaultImage = serviceImageMap[service.id] || '/assets/about.jpg'
+            const serviceImageKey = `serviceImage_${service.id}`
+            const serviceImage = servicesData.images?.[serviceImageKey] || defaultImage
+            
+            return (
             <div 
               key={service.id}
               data-aos="fade-up" 
               data-aos-delay={index * 100}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group overflow-hidden"
               onClick={() => setSelectedService(selectedService === service.id ? null : service.id)}
             >
-              <div className="text-center mb-6">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gray-50 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
+              {/* Service Image - 1:1 aspect ratio */}
+              <div className="relative w-full aspect-square overflow-hidden">
+                <img 
+                  src={serviceImage} 
+                  alt={service.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div className="absolute top-4 right-4">
+                  <div className="w-16 h-16 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    {service.icon}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {service.description}
-                </p>
               </div>
+              
+              <div className="p-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               
               {/* Features list */}
               <div className={`transition-all duration-300 ${selectedService === service.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
@@ -80,8 +102,53 @@ export default function Services({lang}){
                   }
                 </span>
               </div>
+              </div>
             </div>
-          ))}
+            )
+          })}
+        </div>
+        
+        {/* Features Section */}
+        <div className="mb-16" data-aos="fade-up">
+          <div className="text-center mb-12">
+            <h3 className="font-bold mb-4" style={{
+              color: primary, 
+              fontSize: 'clamp(1.75rem, 4vw, var(--heading-size))'
+            }}>
+              {lang === 'en' ? 'Our Features' : 'ميزاتنا'}
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
+              {lang === 'en' 
+                ? 'Discover the key features that set us apart in the industrial safety sector.'
+                : 'اكتشف الميزات الرئيسية التي تميزنا في قطاع السلامة الصناعية.'
+              }
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => {
+              const featureKey = `feature${num}`
+              const images = getContent('images', lang) || {}
+              const featureImage = images.features?.[featureKey] || `/assets/feature${num}.jpg`
+              
+              return (
+                <div 
+                  key={num}
+                  data-aos="fade-up" 
+                  data-aos-delay={num * 50}
+                  className="relative w-full overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group bg-gray-100"
+                  style={{ aspectRatio: '1 / 1' }}
+                >
+                  <img 
+                    src={featureImage}
+                    alt={lang === 'en' ? `Feature ${num}` : `ميزة ${num}`}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              )
+            })}
+          </div>
         </div>
         
         {/* Process Section */}

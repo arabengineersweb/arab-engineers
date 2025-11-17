@@ -492,6 +492,74 @@ export default function AdminPanel({ onLogout }) {
     </div>
   ), [])
 
+  const ImageUpload = useCallback(({ value, onChange, label, accept = "image/*" }) => {
+    const handleFileChange = (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Image size must be less than 5MB')
+          return
+        }
+        
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          onChange(reader.result) // Store as base64 data URL
+        }
+        reader.readAsDataURL(file)
+      }
+    }
+
+    return (
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+        <div className="space-y-3">
+          {value && (
+            <div className="relative">
+              <img 
+                src={value} 
+                alt="Preview" 
+                className="w-full max-w-xs h-48 object-cover rounded-lg border border-gray-300"
+              />
+            </div>
+          )}
+          <div className="flex gap-3">
+            <label className="flex-1 cursor-pointer">
+              <input
+                type="file"
+                accept={accept}
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <div className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-center transition-colors">
+                {value ? 'Change Image' : 'Upload Image'}
+              </div>
+            </label>
+            {value && (
+              <button
+                type="button"
+                onClick={() => onChange('')}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+          <div className="text-sm text-gray-500">
+            Or enter image URL:
+          </div>
+          <input
+            type="text"
+            value={value && !value.startsWith('data:') ? value : ''}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="https://example.com/image.jpg or /assets/image.jpg"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+    )
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -593,6 +661,14 @@ export default function AdminPanel({ onLogout }) {
                 Footer Section
               </button>
               <button
+                onClick={() => setActiveTab('images')}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'images' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                Images & Assets
+              </button>
+              <button
                 onClick={() => setActiveTab('history')}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
                   activeTab === 'history' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
@@ -668,6 +744,11 @@ export default function AdminPanel({ onLogout }) {
                   onChange={(value) => handleContentChange('hero', 'buttonText', value)}
                   label="Button Text"
                 />
+                <ImageUpload
+                  value={content[lang]?.hero?.image || ''}
+                  onChange={(value) => handleContentChange('hero', 'image', value)}
+                  label="Hero Image"
+                />
               </div>
             )}
 
@@ -684,6 +765,11 @@ export default function AdminPanel({ onLogout }) {
                   onChange={(value) => handleContentChange('about', 'text', value)}
                   label="Description"
                   rows={4}
+                />
+                <ImageUpload
+                  value={content[lang]?.about?.image || ''}
+                  onChange={(value) => handleContentChange('about', 'image', value)}
+                  label="About Image"
                 />
                 
                 <div className="mt-8">
@@ -754,38 +840,71 @@ export default function AdminPanel({ onLogout }) {
                 
                 <div className="mt-8">
                   <h3 className="text-lg font-medium mb-4">Services</h3>
-                  {content[lang]?.services?.services?.map((service, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
-                      <h4 className="font-medium mb-3">Service {index + 1}</h4>
-                      <TextInput
-                        value={service.title}
-                        onChange={(value) => handleServiceChange(index, 'title', value)}
-                        label="Service Title"
-                      />
-                      <TextArea
-                        value={service.description}
-                        onChange={(value) => handleServiceChange(index, 'description', value)}
-                        label="Service Description"
-                        rows={2}
-                      />
-                      <TextInput
-                        value={service.icon}
-                        onChange={(value) => handleServiceChange(index, 'icon', value)}
-                        label="Icon (Emoji)"
-                      />
-                      <div className="mt-3">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
-                        {service.features?.map((feature, featureIndex) => (
-                          <TextInput
-                            key={featureIndex}
-                            value={feature}
-                            onChange={(value) => handleServiceFeatureChange(index, featureIndex, value)}
-                            label={`Feature ${featureIndex + 1}`}
-                          />
-                        ))}
+                  {content[lang]?.services?.services?.map((service, index) => {
+                    const serviceImageMap = {
+                      'non-tag-pwas': 'non-tag-based.jpg',
+                      'sensor-tag-pwas': 'sensor-based.jpg',
+                      'tag-based-pwas': 'tag-based.jpg',
+                      'ai-pwas': 'ai-based.jpg',
+                      'safety-consulting': 'safety.jpg',
+                      'maintenance-support': 'maintainace.jpg'
+                    }
+                    const defaultImagePath = `/assets/${serviceImageMap[service.id] || 'about.jpg'}`
+                    const serviceImageKey = `serviceImage_${service.id}`
+                    const currentImage = content[lang]?.services?.images?.[serviceImageKey] || defaultImagePath
+                    
+                    return (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 className="font-medium mb-3">Service {index + 1}</h4>
+                        <TextInput
+                          value={service.title}
+                          onChange={(value) => handleServiceChange(index, 'title', value)}
+                          label="Service Title"
+                        />
+                        <TextArea
+                          value={service.description}
+                          onChange={(value) => handleServiceChange(index, 'description', value)}
+                          label="Service Description"
+                          rows={2}
+                        />
+                        <TextInput
+                          value={service.icon}
+                          onChange={(value) => handleServiceChange(index, 'icon', value)}
+                          label="Icon (Emoji)"
+                        />
+                        <ImageUpload
+                          value={currentImage}
+                          onChange={(value) => {
+                            setContent(prev => ({
+                              ...prev,
+                              [lang]: {
+                                ...prev[lang],
+                                services: {
+                                  ...prev[lang].services,
+                                  images: {
+                                    ...prev[lang].services?.images,
+                                    [serviceImageKey]: value
+                                  }
+                                }
+                              }
+                            }))
+                          }}
+                          label={`Service Image (${service.title})`}
+                        />
+                        <div className="mt-3">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
+                          {service.features?.map((feature, featureIndex) => (
+                            <TextInput
+                              key={featureIndex}
+                              value={feature}
+                              onChange={(value) => handleServiceFeatureChange(index, featureIndex, value)}
+                              label={`Feature ${featureIndex + 1}`}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
                 
                 <div className="mt-8">
@@ -1007,6 +1126,70 @@ export default function AdminPanel({ onLogout }) {
                     })}
                     label="Terms of Service Text"
                   />
+                </div>
+              </div>
+            )}
+            
+            {activeTab === 'images' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-6">Images & Assets</h2>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Logo</h3>
+                  <ImageUpload
+                    value={content[lang]?.images?.logo || '/assets/logo.png'}
+                    onChange={(value) => {
+                      setContent(prev => ({
+                        ...prev,
+                        [lang]: {
+                          ...prev[lang],
+                          images: {
+                            ...prev[lang]?.images,
+                            logo: value
+                          }
+                        }
+                      }))
+                    }}
+                    label="Company Logo"
+                  />
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Feature Images (Our Features Section)</h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Upload images for the "Our Features" section. These images are displayed in a grid on the Services page.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[1, 2, 3, 4, 5, 6, 7].map((num) => {
+                      const featureKey = `feature${num}`
+                      const defaultPath = `/assets/feature${num}.jpg`
+                      const currentImage = content[lang]?.images?.features?.[featureKey] || defaultPath
+                      
+                      return (
+                        <div key={num} className="border border-gray-200 rounded-lg p-4">
+                          <ImageUpload
+                            value={currentImage}
+                            onChange={(value) => {
+                              setContent(prev => ({
+                                ...prev,
+                                [lang]: {
+                                  ...prev[lang],
+                                  images: {
+                                    ...prev[lang]?.images,
+                                    features: {
+                                      ...prev[lang]?.images?.features,
+                                      [featureKey]: value
+                                    }
+                                  }
+                                }
+                              }))
+                            }}
+                            label={`Feature Image ${num}`}
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
               </div>
             )}

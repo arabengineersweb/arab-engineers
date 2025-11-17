@@ -8,28 +8,33 @@
     },
     "about": {
       "title": "About Us",
-      "text": "We are a company based in Saudi Arabia, specializing in the industrial sector. Our primary focus is to cater to the growing industrial needs of the Kingdom, particularly in the areas of oil, gas, petrochemicals, power generation, and other energy industries. We take pride in implementing industry-approved monitoring and safety plans.",
+      "text": "We are a Saudi-based company located in the Eastern region of the Kingdom of Saudi Arabia. We are a leading company in the industrial sector, specializing in meeting the growing industrial needs in the Kingdom. Our primary focus lies in the sectors of oil, gas, petrochemicals, power generation, and other energy industries. We take pride in our excellence in implementing monitoring and safety plans approved by industry-leading companies such as Saudi Aramco. Our team consists of certified professionals with expertise in their respective fields, including heavy equipment operators, welders, experts in high-voltage cable connections, work permit receivers, quality control management, inspectors, safety engineers, scaffolding supervisors, and excavators. We are committed to providing high-quality services and maintaining our reputation as high-quality contractors. We strive to achieve excellence and enhance our position in the industry. We place utmost importance on delivering high-quality services and focusing on safety, and we are confident in our ability to meet the diverse needs of our clients and contribute to the advancement of the industrial sector in the Kingdom of Saudi Arabia. We consider innovation and development as integral parts of our vision. We aim to utilize the latest tools and technologies and implement best practices to achieve progress and meet future industrial challenges. We also uphold sustainability and social and environmental responsibility in all aspects of our work.",
       "image": "/assets/about.jpg",
       "features": [
         {
           "icon": "🏭",
           "title": "Industrial Specialization",
-          "description": "Focused on oil, gas, petrochemicals, power generation, and energy industries across Saudi Arabia."
+          "description": "Leading company in the industrial sector, specializing in oil, gas, petrochemicals, power generation, and energy industries across the Eastern region of Saudi Arabia."
         },
         {
           "icon": "🛡️",
-          "title": "Safety Excellence",
-          "description": "Implementing industry-approved monitoring and safety plans with cutting-edge PWAS technology."
+          "title": "Saudi Aramco Approved",
+          "description": "Excellence in implementing monitoring and safety plans approved by industry-leading companies such as Saudi Aramco with certified professionals."
+        },
+        {
+          "icon": "👷",
+          "title": "Certified Professionals",
+          "description": "Team of certified experts including heavy equipment operators, welders, high-voltage cable experts, work permit receivers, quality control, inspectors, safety engineers, scaffolding supervisors, and excavators."
         },
         {
           "icon": "🎯",
-          "title": "Quality Commitment",
-          "description": "Delivering high-quality services while maintaining our reputation as top-tier contractors."
+          "title": "Quality & Safety Commitment",
+          "description": "Committed to providing high-quality services, maintaining our reputation as high-quality contractors, and placing utmost importance on safety in all operations."
         },
         {
-          "icon": "🌱",
-          "title": "Sustainability Focus",
-          "description": "Embracing innovation, development, and adhering to sustainability and social responsibility practices."
+          "icon": "🚀",
+          "title": "Innovation & Development",
+          "description": "Utilizing the latest tools and technologies, implementing best practices, and upholding sustainability and social and environmental responsibility."
         }
       ],
       "stats": [
@@ -175,28 +180,33 @@
     },
     "about": {
       "title": "من نحن",
-      "text": "نحن شركة مقرها المملكة العربية السعودية، متخصصة في القطاع الصناعي. تركيزنا الأساسي هو تلبية الاحتياجات الصناعية المتزايدة للمملكة، خاصة في مجالات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة الأخرى. نفخر بتطبيق خطط المراقبة والسلامة المعتمدة في الصناعة.",
+      "text": "نحن شركة سعودية مقرها في المنطقة الشرقية من المملكة العربية السعودية. نحن شركة رائدة في القطاع الصناعي، متخصصة في تلبية الاحتياجات الصناعية المتزايدة في المملكة. يكمن تركيزنا الأساسي في قطاعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة الأخرى. نفخر بتميزنا في تنفيذ خطط المراقبة والسلامة المعتمدة من قبل شركات رائدة في الصناعة مثل أرامكو السعودية. يتكون فريقنا من محترفين معتمدين يتمتعون بالخبرة في مجالاتهم الخاصة، بما في ذلك مشغلو المعدات الثقيلة، واللحامون، وخبراء في توصيلات الكابلات عالية الجهد، ومستقبلو تصاريح العمل، وإدارة مراقبة الجودة، والمفتشون، ومهندسو السلامة، ومشرفو السقالات، والحفارون. نحن ملتزمون بتقديم خدمات عالية الجودة والحفاظ على سمعتنا كمقاولين عاليي الجودة. نسعى لتحقيق التميز وتعزيز موقعنا في الصناعة. نولي أهمية قصوى لتقديم خدمات عالية الجودة والتركيز على السلامة، ونحن واثقون من قدرتنا على تلبية الاحتياجات المتنوعة لعملائنا والمساهمة في تقدم القطاع الصناعي في المملكة العربية السعودية. نعتبر الابتكار والتطوير جزءًا لا يتجزأ من رؤيتنا. نهدف إلى استخدام أحدث الأدوات والتقنيات وتنفيذ أفضل الممارسات لتحقيق التقدم ومواجهة التحديات الصناعية المستقبلية. كما نؤيد الاستدامة والمسؤولية الاجتماعية والبيئية في جميع جوانب عملنا.",
       "image": "/assets/about.jpg",
       "features": [
         {
           "icon": "🏭",
           "title": "التخصص الصناعي",
-          "description": "نركز على صناعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة في جميع أنحاء المملكة العربية السعودية."
+          "description": "شركة رائدة في القطاع الصناعي، متخصصة في صناعات النفط والغاز والبتروكيماويات وتوليد الطاقة وصناعات الطاقة في المنطقة الشرقية من المملكة العربية السعودية."
         },
         {
           "icon": "🛡️",
-          "title": "التميز في السلامة",
-          "description": "نطبق خطط المراقبة والسلامة المعتمدة في الصناعة مع تقنية PWAS المتطورة."
+          "title": "معتمد من أرامكو السعودية",
+          "description": "التميز في تنفيذ خطط المراقبة والسلامة المعتمدة من قبل شركات رائدة في الصناعة مثل أرامكو السعودية مع محترفين معتمدين."
+        },
+        {
+          "icon": "👷",
+          "title": "محترفون معتمدون",
+          "description": "فريق من الخبراء المعتمدين بما في ذلك مشغلو المعدات الثقيلة، واللحامون، وخبراء الكابلات عالية الجهد، ومستقبلو تصاريح العمل، ومراقبة الجودة، والمفتشون، ومهندسو السلامة، ومشرفو السقالات، والحفارون."
         },
         {
           "icon": "🎯",
-          "title": "الالتزام بالجودة",
-          "description": "نقدم خدمات عالية الجودة مع الحفاظ على سمعتنا كمقاولين من الدرجة الأولى."
+          "title": "الالتزام بالجودة والسلامة",
+          "description": "ملتزمون بتقديم خدمات عالية الجودة، والحفاظ على سمعتنا كمقاولين عاليي الجودة، وإعطاء أهمية قصوى للسلامة في جميع العمليات."
         },
         {
-          "icon": "🌱",
-          "title": "التركيز على الاستدامة",
-          "description": "نتبنى الابتكار والتطوير ونلتزم بممارسات الاستدامة والمسؤولية الاجتماعية."
+          "icon": "🚀",
+          "title": "الابتكار والتطوير",
+          "description": "استخدام أحدث الأدوات والتقنيات، وتنفيذ أفضل الممارسات، ودعم الاستدامة والمسؤولية الاجتماعية والبيئية."
         }
       ],
       "stats": [

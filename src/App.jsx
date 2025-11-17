@@ -12,7 +12,16 @@ import { getStyle } from './utils/styleManager'
 import { adminUtils } from './utils/adminUtils'
 
 export default function App(){
-  const [lang, setLang] = useState('en')
+  // Load language from localStorage or default to 'en'
+  const [lang, setLang] = useState(() => {
+    const savedLang = localStorage.getItem('preferredLanguage')
+    return savedLang || 'en'
+  })
+
+  // Save language to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('preferredLanguage', lang)
+  }, [lang])
 
   // apply rtl when Arabic selected
   useEffect(()=>{

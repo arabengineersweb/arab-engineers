@@ -20,11 +20,6 @@ export default function ContactForm({lang}){
   
   return (
     <section id="contact" className="pt-32 py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-72 h-72 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-      </div>
       
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}

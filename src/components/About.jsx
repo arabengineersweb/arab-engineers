@@ -11,11 +11,6 @@ export default function About({lang}){
   
   return (
     <section id="about" className="pt-32 py-20 bg-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 right-20 w-64 h-64 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-        <div className="absolute bottom-20 left-20 w-48 h-48 rounded-full opacity-5" style={{backgroundColor: primary}}></div>
-      </div>
       
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -74,7 +69,7 @@ export default function About({lang}){
         </div>
         
         {/* Stats section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20" data-aos="fade-up">
           {stats.map((stat, index) => (
             <div key={index} className="text-center p-6 rounded-2xl" style={{backgroundColor: 'var(--secondary)'}}>
               <div className="text-4xl font-bold mb-2" style={{color: primary}}>{stat.value}</div>
