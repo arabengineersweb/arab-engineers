@@ -58,8 +58,8 @@
     },
     "services": {
       "title": "Our Services",
-      "subtitle": "Advanced Industrial Safety Solutions",
-      "description": "We specialize in Proximity Warning Alert Systems (PWAS) designed to prevent collisions between vehicles and personnel in industrial and construction operations.",
+      "subtitle": "Proximity Warning Alert Systems (PWAS)",
+      "description": "The Proximity Warning Alert System (PWAS) is an essential safety measure in industrial and construction operations designed to prevent collisions between vehicles and personnel. This system utilizes audible and visual warnings to alert operators when a person or another vehicle enters a pre-defined hazard zone, significantly reducing the risk of accidents.\n\nBenefits of the PWAS\n\nEnhanced safety\n\nCollision prevention\n\nIncreased awareness\n\nImproved communication\n\nCustomizable and site-specific",
       "services": [
         {
           "id": "non-tag-pwas",

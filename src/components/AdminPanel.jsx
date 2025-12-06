@@ -144,6 +144,75 @@ export default function AdminPanel({ onLogout }) {
     }))
   }
 
+  const handlePWASDetailChange = (serviceId, field, value) => {
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        services: {
+          ...prev[lang].services,
+          pwasDetails: {
+            ...prev[lang].services?.pwasDetails,
+            [serviceId]: {
+              ...prev[lang].services?.pwasDetails?.[serviceId],
+              [field]: value
+            }
+          }
+        }
+      }
+    }))
+  }
+
+  const handlePWASSpecificationChange = (serviceId, specIndex, value) => {
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        services: {
+          ...prev[lang].services,
+          pwasDetails: {
+            ...prev[lang].services?.pwasDetails,
+            [serviceId]: {
+              ...prev[lang].services?.pwasDetails?.[serviceId],
+              specifications: (prev[lang].services?.pwasDetails?.[serviceId]?.specifications || []).map((spec, index) => 
+                index === specIndex ? value : spec
+              )
+            }
+          }
+        }
+      }
+    }))
+  }
+
+  const handleCameraSpecChange = (field, value) => {
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        camera: {
+          ...prev[lang].camera,
+          [field]: value
+        }
+      }
+    }))
+  }
+
+  const handleCameraImageChange = (imageKey, value) => {
+    setContent(prev => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        camera: {
+          ...prev[lang].camera,
+          images: {
+            ...prev[lang].camera?.images,
+            [imageKey]: value
+          }
+        }
+      }
+    }))
+  }
+
   const handleFeatureChange = (featureIndex, field, value) => {
     const originalValue = getOriginalValue('about', 'features', featureIndex, field)
     
@@ -645,6 +714,14 @@ export default function AdminPanel({ onLogout }) {
                 Services Section
               </button>
               <button
+                onClick={() => setActiveTab('pwas')}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'pwas' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                PWAS Page
+              </button>
+              <button
                 onClick={() => setActiveTab('contact')}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
                   activeTab === 'contact' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
@@ -749,6 +826,16 @@ export default function AdminPanel({ onLogout }) {
                   onChange={(value) => handleContentChange('hero', 'image', value)}
                   label="Hero Image"
                 />
+                <ImageUpload
+                  value={content[lang]?.hero?.backgroundImage || '/assets/hero-background.jpg'}
+                  onChange={(value) => handleContentChange('hero', 'backgroundImage', value)}
+                  label="Hero Background Image"
+                />
+                <ImageUpload
+                  value={content[lang]?.hero?.engineerImage || '/assets/engineer-hero.jpg'}
+                  onChange={(value) => handleContentChange('hero', 'engineerImage', value)}
+                  label="Hero Engineer Image (Small Hexagon)"
+                />
               </div>
             )}
 
@@ -770,6 +857,11 @@ export default function AdminPanel({ onLogout }) {
                   value={content[lang]?.about?.image || ''}
                   onChange={(value) => handleContentChange('about', 'image', value)}
                   label="About Image"
+                />
+                <ImageUpload
+                  value={content[lang]?.about?.engineerImage || '/assets/engineer-about.jpg'}
+                  onChange={(value) => handleContentChange('about', 'engineerImage', value)}
+                  label="About Engineer Image (Small Hexagon)"
                 />
                 
                 <div className="mt-8">
@@ -838,69 +930,127 @@ export default function AdminPanel({ onLogout }) {
                   rows={3}
                 />
                 
+                {/* PWAS Main Image */}
                 <div className="mt-8">
-                  <h3 className="text-lg font-medium mb-4">Services</h3>
-                  {content[lang]?.services?.services?.map((service, index) => {
-                    const serviceImageMap = {
-                      'non-tag-pwas': 'non-tag-based.jpg',
-                      'sensor-tag-pwas': 'sensor-based.jpg',
-                      'tag-based-pwas': 'tag-based.jpg',
-                      'ai-pwas': 'ai-based.jpg',
-                      'safety-consulting': 'safety.jpg',
-                      'maintenance-support': 'maintainace.jpg'
+                  <h3 className="text-lg font-medium mb-4">PWAS Main Image</h3>
+                  <ImageUpload
+                    value={content[lang]?.services?.pwasMainImage || '/assets/pwas.jpg'}
+                    onChange={(value) => handleContentChange('services', 'pwasMainImage', value)}
+                    label="PWAS Main Image (Shown in Services Section)"
+                  />
+                </div>
+
+                {/* PWAS Detailed Content */}
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium mb-4">PWAS Detailed Content</h3>
+                  {['non-tag-pwas', 'sensor-tag-pwas', 'tag-based-pwas', 'ai-pwas'].map((serviceId) => {
+                    const service = content[lang]?.services?.services?.find(s => s.id === serviceId)
+                    const pwasDetail = content[lang]?.services?.pwasDetails?.[serviceId] || {}
+                    const defaultDescriptions = {
+                      'non-tag-pwas': {
+                        en: 'The Non-Tag Based Proximity Warning Alert System (PWAS) utilizes a 70GHz MMW radar for its functionality. When any obstacle is detected within a range of 40 meters, the system activates an alarm to warn the operator. Additionally, a camera feed provides a visual reference of the detected object, allowing for precautionary operation of the equipment.',
+                        ar: 'يستخدم نظام الإنذار والتحذير من القرب غير القائم على العلامات (PWAS) رادار MMW بتردد 70 جيجاهرتز. عند اكتشاف أي عائق ضمن نطاق 40 مترًا، ينشط النظام إنذارًا لتحذير المشغل. بالإضافة إلى ذلك، توفر تغذية الكاميرا مرجعًا بصريًا للكائن المكتشف، مما يسمح بتشغيل المعدات بشكل احترازي.'
+                      },
+                      'sensor-tag-pwas': {
+                        en: 'The Sensor-Tag PWAS is an advanced system that merges both Tag-Based and Non-Tag-Based technologies, offering significant flexibility to meet diverse project needs. It is designed specifically for industrial use, combining a 24GHz millimeter wave (MMW) radar and a 2.4GHz RF module to detect both tags and various objects within a specified range. This dual functionality enables the system to recognize multiple tags and obstacles simultaneously. Additionally, the Sensor-Tag PWAS records relevant information with timestamps for precise tracking and analysis, while providing real-time alerts to the operator to ensure timely responses. Overall, the system is engineered to enhance safety and improve operational efficiency across a wide range of applications.',
+                        ar: 'نظام Sensor-Tag PWAS هو نظام متقدم يجمع بين تقنيات القائمة على العلامات وغير القائمة على العلامات، مما يوفر مرونة كبيرة لتلبية احتياجات المشاريع المتنوعة. تم تصميمه خصيصًا للاستخدام الصناعي، حيث يجمع بين رادار الموجة المليمترية (MMW) بتردد 24 جيجاهرتز ووحدة RF بتردد 2.4 جيجاهرتز لاكتشاف كل من العلامات والأشياء المختلفة ضمن نطاق محدد. تتيح هذه الوظيفة المزدوجة للنظام التعرف على عدة علامات وعوائق في وقت واحد. بالإضافة إلى ذلك، يسجل Sensor-Tag PWAS المعلومات ذات الصلة مع الطوابع الزمنية للتتبع والتحليل الدقيق، مع توفير تنبيهات فورية للمشغل لضمان الاستجابات في الوقت المناسب. بشكل عام، تم تصميم النظام لتعزيز السلامة وتحسين الكفاءة التشغيلية عبر مجموعة واسعة من التطبيقات.'
+                      },
+                      'tag-based-pwas': {
+                        en: 'The Tag-Based Proximity Warning and Alert System (PWAS) operates at 2.4GHz RF frequency. Its main function is to detect tags within a given range and automatically record their values and timestamps upon detection. It then alerts the driver that a person is near the equipment. The system can identify multiple tags simultaneously, ensuring effective monitoring and timely alerts for the operator.',
+                        ar: 'يعمل نظام الإنذار والتحذير من القرب القائم على العلامات (PWAS) بتردد RF 2.4 جيجاهرتز. وظيفته الرئيسية هي اكتشاف العلامات ضمن نطاق معين وتسجيل قيمها وطوابعها الزمنية تلقائيًا عند الاكتشاف. ثم ينبه السائق أن شخصًا قريب من المعدات. يمكن للنظام تحديد عدة علامات في وقت واحد، مما يضمن المراقبة الفعالة والتنبيهات في الوقت المناسب للمشغل.'
+                      },
+                      'ai-pwas': {
+                        en: 'The AI Proximity Warning Alert System (AI PWAS) enhances safety by detecting nearby objects and hazards in real time, alerting users to prevent collisions across various environments, including automotive and industrial settings. Using advanced AI algorithms, it offers accurate proximity assessments and facilitates quick responses to improve safety standards. Arab Engineers\' AI PWAS continuously monitors surroundings for potential hazards, helping users stay proactive and reduce risks. This system integrates sensor technology and machine learning, allowing for real-time monitoring and customization of sensitivity and alert thresholds. It also integrates seamlessly with existing security systems to enhance overall safety. With its ability to learn from past incidents, the AI PWAS minimizes false alarms and provides audio and visual alerts to communicate threats effectively. Overall, it is an essential tool for promoting situational awareness and preventing accidents across diverse applications.',
+                        ar: 'يعزز نظام الإنذار والتحذير من القرب بالذكاء الاصطناعي (AI PWAS) السلامة من خلال اكتشاف الأجسام والمخاطر القريبة في الوقت الفعلي، وتنبيه المستخدمين لمنع التصادمات عبر بيئات متنوعة، بما في ذلك الإعدادات automotive والصناعية. باستخدام خوارزميات الذكاء الاصطناعي المتقدمة، يقدم تقييمات دقيقة للقرب ويسهل الاستجابات السريعة لتحسين معايير السلامة. يراقب AI PWAS من المهندسين العرب باستمرار المناطق المحيطة بحثًا عن المخاطر المحتملة، مما يساعد المستخدمين على البقاء استباقيين وتقليل المخاطر. يدمج هذا النظام تقنية المستشعرات والتعلم الآلي، مما يسمح بالمراقبة الفورية وتخصيص حساسية وعتبات التنبيه. كما يتكامل بسلاسة مع أنظمة الأمان الموجودة لتعزيز السلامة العامة. مع قدرته على التعلم من الحوادث السابقة، يقلل AI PWAS من الإنذارات الكاذبة ويوفر تنبيهات صوتية وبصرية للتواصل الفعال مع التهديدات. بشكل عام، إنه أداة أساسية لتعزيز الوعي بالموقف ومنع الحوادث عبر تطبيقات متنوعة.'
+                      }
                     }
-                    const defaultImagePath = `/assets/${serviceImageMap[service.id] || 'about.jpg'}`
-                    const serviceImageKey = `serviceImage_${service.id}`
-                    const currentImage = content[lang]?.services?.images?.[serviceImageKey] || defaultImagePath
+                    const defaultSpecs = {
+                      'non-tag-pwas': {
+                        en: ['User-defined detection range up to 40 meters for Sensors', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['نطاق اكتشاف محدد من قبل المستخدم يصل إلى 40 مترًا للمستشعرات', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'sensor-tag-pwas': {
+                        en: ['360° area coverage', 'Based integrated system', 'User-defined detection range: up to 20 meters for Tags, Up to 40 meters for Sensors', 'Built-in antenna (2.4GHz RF range)', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360°', 'نظام متكامل', 'نطاق اكتشاف محدد من قبل المستخدم: يصل إلى 20 مترًا للعلامات، يصل إلى 40 مترًا للمستشعرات', 'هوائي مدمج (نطاق RF 2.4 جيجاهرتز)', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'tag-based-pwas': {
+                        en: ['360° area coverage', 'Based integrated system', 'User-defined detection range up to 20 meters', 'Built-in antenna (2.4GHz RF range)', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360°', 'نظام متكامل', 'نطاق اكتشاف محدد من قبل المستخدم يصل إلى 20 مترًا', 'هوائي مدمج (نطاق RF 2.4 جيجاهرتز)', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'ai-pwas': {
+                        en: ['360° area coverage with 4 cameras', 'Real-time detection of nearby objects and hazards', 'Memory card for event recording', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AI-AHD camera angle: 175°', 'AI-AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360° مع 4 كاميرات', 'اكتشاف فوري للأجسام والمخاطر القريبة', 'بطاقة ذاكرة لتسجيل الأحداث', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AI-AHD: 175°', 'شاشة LCD رباعية AI-AHD']
+                      }
+                    }
+                    const currentDescription = pwasDetail.description || defaultDescriptions[serviceId]?.[lang] || ''
+                    const currentSpecs = pwasDetail.specifications || defaultSpecs[serviceId]?.[lang] || []
                     
                     return (
-                      <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
-                        <h4 className="font-medium mb-3">Service {index + 1}</h4>
-                        <TextInput
-                          value={service.title}
-                          onChange={(value) => handleServiceChange(index, 'title', value)}
-                          label="Service Title"
-                        />
+                      <div key={serviceId} className="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 className="font-medium mb-3">{service?.title || serviceId}</h4>
+                        
+                        {/* PWAS Images */}
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">PWAS Images</label>
+                          <ImageUpload
+                            value={pwasDetail.image || 
+                              (serviceId === 'non-tag-pwas' ? '/assets/non-tag-based.png' :
+                               serviceId === 'sensor-tag-pwas' ? '/assets/sensor-tag-based.png' :
+                               serviceId === 'tag-based-pwas' ? '/assets/tag-based.png' :
+                               serviceId === 'ai-pwas' ? '/assets/ai-based.png' : '')}
+                            onChange={(value) => handlePWASDetailChange(serviceId, 'image', value)}
+                            label="First Image"
+                          />
+                          <ImageUpload
+                            value={pwasDetail.secondImage || 
+                              (serviceId === 'non-tag-pwas' ? '/assets/non-tag-based2.png' :
+                               serviceId === 'sensor-tag-pwas' ? '/assets/sensor-tag-based2.png' :
+                               serviceId === 'tag-based-pwas' ? '/assets/tag-based2.png' :
+                               serviceId === 'ai-pwas' ? '/assets/ai-based2.png' : '')}
+                            onChange={(value) => handlePWASDetailChange(serviceId, 'secondImage', value)}
+                            label="Second Image"
+                          />
+                        </div>
+                        
                         <TextArea
-                          value={service.description}
-                          onChange={(value) => handleServiceChange(index, 'description', value)}
-                          label="Service Description"
-                          rows={2}
-                        />
-                        <TextInput
-                          value={service.icon}
-                          onChange={(value) => handleServiceChange(index, 'icon', value)}
-                          label="Icon (Emoji)"
-                        />
-                        <ImageUpload
-                          value={currentImage}
-                          onChange={(value) => {
-                            setContent(prev => ({
-                              ...prev,
-                              [lang]: {
-                                ...prev[lang],
-                                services: {
-                                  ...prev[lang].services,
-                                  images: {
-                                    ...prev[lang].services?.images,
-                                    [serviceImageKey]: value
-                                  }
-                                }
-                              }
-                            }))
-                          }}
-                          label={`Service Image (${service.title})`}
+                          value={currentDescription}
+                          onChange={(value) => handlePWASDetailChange(serviceId, 'description', value)}
+                          label="Detailed Description"
+                          rows={4}
                         />
                         <div className="mt-3">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
-                          {service.features?.map((feature, featureIndex) => (
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Specifications</label>
+                          {currentSpecs.map((spec, specIndex) => (
                             <TextInput
-                              key={featureIndex}
-                              value={feature}
-                              onChange={(value) => handleServiceFeatureChange(index, featureIndex, value)}
-                              label={`Feature ${featureIndex + 1}`}
+                              key={specIndex}
+                              value={spec}
+                              onChange={(value) => handlePWASSpecificationChange(serviceId, specIndex, value)}
+                              label={`Specification ${specIndex + 1}`}
                             />
                           ))}
+                          <button
+                            onClick={() => {
+                              setContent(prev => ({
+                                ...prev,
+                                [lang]: {
+                                  ...prev[lang],
+                                  services: {
+                                    ...prev[lang].services,
+                                    pwasDetails: {
+                                      ...prev[lang].services?.pwasDetails,
+                                      [serviceId]: {
+                                        ...prev[lang].services?.pwasDetails?.[serviceId],
+                                        specifications: [...(prev[lang].services?.pwasDetails?.[serviceId]?.specifications || currentSpecs), '']
+                                      }
+                                    }
+                                  }
+                                }
+                              }))
+                            }}
+                            className="mt-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+                          >
+                            Add Specification
+                          </button>
                         </div>
                       </div>
                     )
@@ -955,6 +1105,360 @@ export default function AdminPanel({ onLogout }) {
                         />
                       </div>
                     ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'pwas' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-6">PWAS Page</h2>
+                
+                {/* PWAS Page Header */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">PWAS Page Header</h3>
+                  <TextInput
+                    value={content[lang]?.pwas?.title || (lang === 'en' ? 'Proximity Warning Alert System (PWAS)' : 'نظام الإنذار والتحذير من القرب (PWAS)')}
+                    onChange={(value) => handleContentChange('pwas', 'title', value)}
+                    label="PWAS Page Title (Heading)"
+                  />
+                  <TextInput
+                    value={content[lang]?.services?.subtitle || ''}
+                    onChange={(value) => handleContentChange('services', 'subtitle', value)}
+                    label="PWAS Page Subtitle"
+                  />
+                </div>
+
+                {/* PWAS Description and Benefits */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">PWAS Description and Benefits</h3>
+                  <TextArea
+                    value={content[lang]?.pwas?.mainDescription || (() => {
+                      const desc = content[lang]?.services?.description || ''
+                      const parts = desc.split('\n\n')
+                      return parts[0] || ''
+                    })()}
+                    onChange={(value) => handleContentChange('pwas', 'mainDescription', value)}
+                    label="Main Description"
+                    rows={4}
+                  />
+                  <TextInput
+                    value={content[lang]?.pwas?.benefitsTitle || (() => {
+                      const desc = content[lang]?.services?.description || ''
+                      const parts = desc.split('\n\n')
+                      const benefitsSection = parts.slice(1).join('\n\n')
+                      const benefitsLines = benefitsSection.split('\n').filter(line => line.trim())
+                      return benefitsLines[0] || (lang === 'en' ? 'Benefits of the PWAS' : 'فوائد PWAS')
+                    })()}
+                    onChange={(value) => handleContentChange('pwas', 'benefitsTitle', value)}
+                    label="Benefits Title"
+                  />
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Benefits List</label>
+                    {(content[lang]?.pwas?.benefits || (() => {
+                      const desc = content[lang]?.services?.description || ''
+                      const parts = desc.split('\n\n')
+                      const benefitsSection = parts.slice(1).join('\n\n')
+                      const benefitsLines = benefitsSection.split('\n').filter(line => line.trim())
+                      return benefitsLines.slice(1) || []
+                    })()).map((benefit, index) => (
+                      <TextInput
+                        key={index}
+                        value={benefit}
+                        onChange={(value) => {
+                          setContent(prev => ({
+                            ...prev,
+                            [lang]: {
+                              ...prev[lang],
+                              pwas: {
+                                ...prev[lang]?.pwas,
+                                benefits: (prev[lang]?.pwas?.benefits || []).map((b, i) => i === index ? value : b)
+                              }
+                            }
+                          }))
+                        }}
+                        label={`Benefit ${index + 1}`}
+                      />
+                    ))}
+                    <button
+                      onClick={() => {
+                        setContent(prev => ({
+                          ...prev,
+                          [lang]: {
+                            ...prev[lang],
+                            pwas: {
+                              ...prev[lang]?.pwas,
+                              benefits: [...(prev[lang]?.pwas?.benefits || []), '']
+                            }
+                          }
+                        }))
+                      }}
+                      className="mt-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+                    >
+                      Add Benefit
+                    </button>
+                  </div>
+                </div>
+
+                {/* PWAS Main Image */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">PWAS Main Image</h3>
+                  <ImageUpload
+                    value={content[lang]?.services?.pwasMainImage || '/assets/pwas.jpg'}
+                    onChange={(value) => handleContentChange('services', 'pwasMainImage', value)}
+                    label="PWAS Main Image (Shown in PWAS Page Header)"
+                  />
+                </div>
+
+                {/* PWAS Detailed Content */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">PWAS Detailed Content</h3>
+                  {['non-tag-pwas', 'sensor-tag-pwas', 'tag-based-pwas', 'ai-pwas'].map((serviceId) => {
+                    const service = content[lang]?.services?.services?.find(s => s.id === serviceId)
+                    const pwasDetail = content[lang]?.services?.pwasDetails?.[serviceId] || {}
+                    const defaultDescriptions = {
+                      'non-tag-pwas': {
+                        en: 'The Non-Tag Based Proximity Warning Alert System (PWAS) utilizes a 70GHz MMW radar for its functionality. When any obstacle is detected within a range of 40 meters, the system activates an alarm to warn the operator. Additionally, a camera feed provides a visual reference of the detected object, allowing for precautionary operation of the equipment.',
+                        ar: 'يستخدم نظام الإنذار والتحذير من القرب غير القائم على العلامات (PWAS) رادار MMW بتردد 70 جيجاهرتز. عند اكتشاف أي عائق ضمن نطاق 40 مترًا، ينشط النظام إنذارًا لتحذير المشغل. بالإضافة إلى ذلك، توفر تغذية الكاميرا مرجعًا بصريًا للكائن المكتشف، مما يسمح بتشغيل المعدات بشكل احترازي.'
+                      },
+                      'sensor-tag-pwas': {
+                        en: 'The Sensor-Tag PWAS is an advanced system that merges both Tag-Based and Non-Tag-Based technologies, offering significant flexibility to meet diverse project needs. It is designed specifically for industrial use, combining a 24GHz millimeter wave (MMW) radar and a 2.4GHz RF module to detect both tags and various objects within a specified range. This dual functionality enables the system to recognize multiple tags and obstacles simultaneously. Additionally, the Sensor-Tag PWAS records relevant information with timestamps for precise tracking and analysis, while providing real-time alerts to the operator to ensure timely responses. Overall, the system is engineered to enhance safety and improve operational efficiency across a wide range of applications.',
+                        ar: 'نظام Sensor-Tag PWAS هو نظام متقدم يجمع بين تقنيات القائمة على العلامات وغير القائمة على العلامات، مما يوفر مرونة كبيرة لتلبية احتياجات المشاريع المتنوعة. تم تصميمه خصيصًا للاستخدام الصناعي، حيث يجمع بين رادار الموجة المليمترية (MMW) بتردد 24 جيجاهرتز ووحدة RF بتردد 2.4 جيجاهرتز لاكتشاف كل من العلامات والأشياء المختلفة ضمن نطاق محدد. تتيح هذه الوظيفة المزدوجة للنظام التعرف على عدة علامات وعوائق في وقت واحد. بالإضافة إلى ذلك، يسجل Sensor-Tag PWAS المعلومات ذات الصلة مع الطوابع الزمنية للتتبع والتحليل الدقيق، مع توفير تنبيهات فورية للمشغل لضمان الاستجابات في الوقت المناسب. بشكل عام، تم تصميم النظام لتعزيز السلامة وتحسين الكفاءة التشغيلية عبر مجموعة واسعة من التطبيقات.'
+                      },
+                      'tag-based-pwas': {
+                        en: 'The Tag-Based Proximity Warning and Alert System (PWAS) operates at 2.4GHz RF frequency. Its main function is to detect tags within a given range and automatically record their values and timestamps upon detection. It then alerts the driver that a person is near the equipment. The system can identify multiple tags simultaneously, ensuring effective monitoring and timely alerts for the operator.',
+                        ar: 'يعمل نظام الإنذار والتحذير من القرب القائم على العلامات (PWAS) بتردد RF 2.4 جيجاهرتز. وظيفته الرئيسية هي اكتشاف العلامات ضمن نطاق معين وتسجيل قيمها وطوابعها الزمنية تلقائيًا عند الاكتشاف. ثم ينبه السائق أن شخصًا قريب من المعدات. يمكن للنظام تحديد عدة علامات في وقت واحد، مما يضمن المراقبة الفعالة والتنبيهات في الوقت المناسب للمشغل.'
+                      },
+                      'ai-pwas': {
+                        en: 'The AI Proximity Warning Alert System (AI PWAS) enhances safety by detecting nearby objects and hazards in real time, alerting users to prevent collisions across various environments, including automotive and industrial settings. Using advanced AI algorithms, it offers accurate proximity assessments and facilitates quick responses to improve safety standards. Arab Engineers\' AI PWAS continuously monitors surroundings for potential hazards, helping users stay proactive and reduce risks. This system integrates sensor technology and machine learning, allowing for real-time monitoring and customization of sensitivity and alert thresholds. It also integrates seamlessly with existing security systems to enhance overall safety. With its ability to learn from past incidents, the AI PWAS minimizes false alarms and provides audio and visual alerts to communicate threats effectively. Overall, it is an essential tool for promoting situational awareness and preventing accidents across diverse applications.',
+                        ar: 'يعزز نظام الإنذار والتحذير من القرب بالذكاء الاصطناعي (AI PWAS) السلامة من خلال اكتشاف الأجسام والمخاطر القريبة في الوقت الفعلي، وتنبيه المستخدمين لمنع التصادمات عبر بيئات متنوعة، بما في ذلك الإعدادات automotive والصناعية. باستخدام خوارزميات الذكاء الاصطناعي المتقدمة، يقدم تقييمات دقيقة للقرب ويسهل الاستجابات السريعة لتحسين معايير السلامة. يراقب AI PWAS من المهندسين العرب باستمرار المناطق المحيطة بحثًا عن المخاطر المحتملة، مما يساعد المستخدمين على البقاء استباقيين وتقليل المخاطر. يدمج هذا النظام تقنية المستشعرات والتعلم الآلي، مما يسمح بالمراقبة الفورية وتخصيص حساسية وعتبات التنبيه. كما يتكامل بسلاسة مع أنظمة الأمان الموجودة لتعزيز السلامة العامة. مع قدرته على التعلم من الحوادث السابقة، يقلل AI PWAS من الإنذارات الكاذبة ويوفر تنبيهات صوتية وبصرية للتواصل الفعال مع التهديدات. بشكل عام، إنه أداة أساسية لتعزيز الوعي بالموقف ومنع الحوادث عبر تطبيقات متنوعة.'
+                      }
+                    }
+                    const defaultSpecs = {
+                      'non-tag-pwas': {
+                        en: ['User-defined detection range up to 40 meters for Sensors', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['نطاق اكتشاف محدد من قبل المستخدم يصل إلى 40 مترًا للمستشعرات', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'sensor-tag-pwas': {
+                        en: ['360° area coverage', 'Based integrated system', 'User-defined detection range: up to 20 meters for Tags, Up to 40 meters for Sensors', 'Built-in antenna (2.4GHz RF range)', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360°', 'نظام متكامل', 'نطاق اكتشاف محدد من قبل المستخدم: يصل إلى 20 مترًا للعلامات، يصل إلى 40 مترًا للمستشعرات', 'هوائي مدمج (نطاق RF 2.4 جيجاهرتز)', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'tag-based-pwas': {
+                        en: ['360° area coverage', 'Based integrated system', 'User-defined detection range up to 20 meters', 'Built-in antenna (2.4GHz RF range)', 'Data logger', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AHD camera angle: 175°', 'AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360°', 'نظام متكامل', 'نطاق اكتشاف محدد من قبل المستخدم يصل إلى 20 مترًا', 'هوائي مدمج (نطاق RF 2.4 جيجاهرتز)', 'مسجل البيانات', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AHD: 175°', 'شاشة LCD رباعية AHD']
+                      },
+                      'ai-pwas': {
+                        en: ['360° area coverage with 4 cameras', 'Real-time detection of nearby objects and hazards', 'Memory card for event recording', 'Power input range: 12VDC – 36VDC', 'Operating temperature: up to 90°C', 'AI-AHD camera angle: 175°', 'AI-AHD Quad LCD monitor'],
+                        ar: ['تغطية منطقة 360° مع 4 كاميرات', 'اكتشاف فوري للأجسام والمخاطر القريبة', 'بطاقة ذاكرة لتسجيل الأحداث', 'نطاق إدخال الطاقة: 12VDC – 36VDC', 'درجة حرارة التشغيل: تصل إلى 90°C', 'زاوية كاميرا AI-AHD: 175°', 'شاشة LCD رباعية AI-AHD']
+                      }
+                    }
+                    const currentDescription = pwasDetail.description || defaultDescriptions[serviceId]?.[lang] || ''
+                    const currentSpecs = pwasDetail.specifications || defaultSpecs[serviceId]?.[lang] || []
+                    
+                    return (
+                      <div key={serviceId} className="border border-gray-200 rounded-lg p-4 mb-4">
+                        <h4 className="font-medium mb-3">{service?.title || serviceId}</h4>
+                        
+                        {/* PWAS Images */}
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">PWAS Images</label>
+                          <ImageUpload
+                            value={pwasDetail.image || 
+                              (serviceId === 'non-tag-pwas' ? '/assets/non-tag-based.png' :
+                               serviceId === 'sensor-tag-pwas' ? '/assets/sensor-tag-based.png' :
+                               serviceId === 'tag-based-pwas' ? '/assets/tag-based.png' :
+                               serviceId === 'ai-pwas' ? '/assets/ai-based.png' : '')}
+                            onChange={(value) => handlePWASDetailChange(serviceId, 'image', value)}
+                            label="First Image"
+                          />
+                          <ImageUpload
+                            value={pwasDetail.secondImage || 
+                              (serviceId === 'non-tag-pwas' ? '/assets/non-tag-based2.png' :
+                               serviceId === 'sensor-tag-pwas' ? '/assets/sensor-tag-based2.png' :
+                               serviceId === 'tag-based-pwas' ? '/assets/tag-based2.png' :
+                               serviceId === 'ai-pwas' ? '/assets/ai-based2.png' : '')}
+                            onChange={(value) => handlePWASDetailChange(serviceId, 'secondImage', value)}
+                            label="Second Image"
+                          />
+                        </div>
+                        
+                        <TextArea
+                          value={currentDescription}
+                          onChange={(value) => handlePWASDetailChange(serviceId, 'description', value)}
+                          label="Detailed Description"
+                          rows={4}
+                        />
+                        <div className="mt-3">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Specifications</label>
+                          {currentSpecs.map((spec, specIndex) => (
+                            <TextInput
+                              key={specIndex}
+                              value={spec}
+                              onChange={(value) => handlePWASSpecificationChange(serviceId, specIndex, value)}
+                              label={`Specification ${specIndex + 1}`}
+                            />
+                          ))}
+                          <button
+                            onClick={() => {
+                              setContent(prev => ({
+                                ...prev,
+                                [lang]: {
+                                  ...prev[lang],
+                                  services: {
+                                    ...prev[lang].services,
+                                    pwasDetails: {
+                                      ...prev[lang].services?.pwasDetails,
+                                      [serviceId]: {
+                                        ...prev[lang].services?.pwasDetails?.[serviceId],
+                                        specifications: [...(prev[lang].services?.pwasDetails?.[serviceId]?.specifications || currentSpecs), '']
+                                      }
+                                    }
+                                  }
+                                }
+                              }))
+                            }}
+                            className="mt-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+                          >
+                            Add Specification
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Camera Specifications */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Camera Specifications</h3>
+                  <TextArea
+                    value={content[lang]?.camera?.description || (lang === 'en' ? 'Waterproof IP69K AHD 1080P Reversing Car Camera for vehicles, trucks, and buses.' : 'كاميرا عكسية مقاومة للماء IP69K AHD 1080P للمركبات والشاحنات والحافلات.')}
+                    onChange={(value) => handleCameraSpecChange('description', value)}
+                    label="Camera Description"
+                    rows={2}
+                  />
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <TextInput
+                      value={content[lang]?.camera?.waterproof || 'IP 69K'}
+                      onChange={(value) => handleCameraSpecChange('waterproof', value)}
+                      label="Waterproof"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.voltage || 'DC 12V (24V optional)'}
+                      onChange={(value) => handleCameraSpecChange('voltage', value)}
+                      label="Voltage"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.viewAngle || '135 degrees'}
+                      onChange={(value) => handleCameraSpecChange('viewAngle', value)}
+                      label="View Angle"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.system || 'PAL/NTSC (optional)'}
+                      onChange={(value) => handleCameraSpecChange('system', value)}
+                      label="System"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.resolution || '1080P'}
+                      onChange={(value) => handleCameraSpecChange('resolution', value)}
+                      label="Resolution"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.imageSensor || '1/3" CMOS'}
+                      onChange={(value) => handleCameraSpecChange('imageSensor', value)}
+                      label="Image Sensor"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.pixel || '1920 x 1080 (2,000,000)'}
+                      onChange={(value) => handleCameraSpecChange('pixel', value)}
+                      label="Pixel"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.lens || '2.5 mm'}
+                      onChange={(value) => handleCameraSpecChange('lens', value)}
+                      label="Lens"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.consumption || '180mA'}
+                      onChange={(value) => handleCameraSpecChange('consumption', value)}
+                      label="Consumption"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.videoOutput || '1.0vp-p, 75Ohm'}
+                      onChange={(value) => handleCameraSpecChange('videoOutput', value)}
+                      label="Video Output"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.sn || '>48dB'}
+                      onChange={(value) => handleCameraSpecChange('sn', value)}
+                      label="S/N"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.whiteBalance || 'Auto'}
+                      onChange={(value) => handleCameraSpecChange('whiteBalance', value)}
+                      label="White Balance"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.certification || 'CE, E mark'}
+                      onChange={(value) => handleCameraSpecChange('certification', value)}
+                      label="Certification"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.warranty || '14 months'}
+                      onChange={(value) => handleCameraSpecChange('warranty', value)}
+                      label="Warranty"
+                    />
+                    <TextInput
+                      value={content[lang]?.camera?.application || (lang === 'en' ? 'Rear view car camera' : 'كاميرا عكسية للمركبات')}
+                      onChange={(value) => handleCameraSpecChange('application', value)}
+                      label="Application"
+                    />
+                  </div>
+                  
+                  {/* Camera Images */}
+                  <div className="mt-6">
+                    <h4 className="text-md font-medium mb-4">Camera Images</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.specs1 || '/assets/cam-specs1.jpg'}
+                        onChange={(value) => handleCameraImageChange('specs1', value)}
+                        label="Camera Specs Image 1"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.specs2 || '/assets/cam-specs2.jpg'}
+                        onChange={(value) => handleCameraImageChange('specs2', value)}
+                        label="Camera Specs Image 2"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.specs3 || '/assets/cam-specs3.jpg'}
+                        onChange={(value) => handleCameraImageChange('specs3', value)}
+                        label="Camera Specs Image 3"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.feature1 || '/assets/cam-feature1.jpg'}
+                        onChange={(value) => handleCameraImageChange('feature1', value)}
+                        label="Camera Feature Image 1"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.feature2 || '/assets/cam-feature2.jpg'}
+                        onChange={(value) => handleCameraImageChange('feature2', value)}
+                        label="Camera Feature Image 2"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.feature3 || '/assets/cam-feature3.jpg'}
+                        onChange={(value) => handleCameraImageChange('feature3', value)}
+                        label="Camera Feature Image 3"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.showcase || '/assets/cam-showcase.jpg'}
+                        onChange={(value) => handleCameraImageChange('showcase', value)}
+                        label="Camera Showcase Image"
+                      />
+                      <ImageUpload
+                        value={content[lang]?.camera?.images?.main || '/assets/camera.jpg'}
+                        onChange={(value) => handleCameraImageChange('main', value)}
+                        label="Camera Main Image (Above Key Features)"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1152,44 +1656,6 @@ export default function AdminPanel({ onLogout }) {
                     }}
                     label="Company Logo"
                   />
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-lg font-medium mb-4">Feature Images (Our Features Section)</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Upload images for the "Our Features" section. These images are displayed in a grid on the Services page.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[1, 2, 3, 4, 5, 6, 7].map((num) => {
-                      const featureKey = `feature${num}`
-                      const defaultPath = `/assets/feature${num}.jpg`
-                      const currentImage = content[lang]?.images?.features?.[featureKey] || defaultPath
-                      
-                      return (
-                        <div key={num} className="border border-gray-200 rounded-lg p-4">
-                          <ImageUpload
-                            value={currentImage}
-                            onChange={(value) => {
-                              setContent(prev => ({
-                                ...prev,
-                                [lang]: {
-                                  ...prev[lang],
-                                  images: {
-                                    ...prev[lang]?.images,
-                                    features: {
-                                      ...prev[lang]?.images?.features,
-                                      [featureKey]: value
-                                    }
-                                  }
-                                }
-                              }))
-                            }}
-                            label={`Feature Image ${num}`}
-                          />
-                        </div>
-                      )
-                    })}
-                  </div>
                 </div>
               </div>
             )}

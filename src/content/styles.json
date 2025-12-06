@@ -1,6 +1,8 @@
 {
-  "primaryColor": "#004C97",
-  "secondaryColor": "#F1F5F9",
+  "primaryColor": "#d66020",
+  "secondaryColor": "#f8eae1",
+  "accentColor": "#a84a18",
+  "tertiaryColor": "#f78c63",
   "fontFamily": "Poppins, sans-serif",
   "headingSize": "2.5",
   "textSize": "1.1"

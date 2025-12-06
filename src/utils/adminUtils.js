@@ -122,6 +122,14 @@ export const adminUtils = {
       root.style.setProperty('--secondary', styles.secondaryColor)
     }
     
+    if (styles.accentColor) {
+      root.style.setProperty('--accent', styles.accentColor)
+    }
+    
+    if (styles.tertiaryColor) {
+      root.style.setProperty('--tertiary', styles.tertiaryColor)
+    }
+    
     if (styles.fontFamily) {
       root.style.setProperty('--font-family', styles.fontFamily)
     }

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getContent } from '../utils/contentLoader'
+import { getStyle } from '../utils/styleManager'
 
 export default function Header({lang, setLang}){
+  const primary = getStyle('primaryColor')
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
@@ -60,67 +62,31 @@ export default function Header({lang, setLang}){
   }
   
   return (
-    <header className={`w-full py-4 px-6 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`w-full py-4 px-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-        : 'bg-white shadow-sm'
-    }`}>
-      <Link to="/" onClick={scrollToTop} className="flex items-center">
-        <img 
-          src={getContent('images', lang)?.logo || '/assets/logo.png'} 
-          alt="logo" 
-          className="h-20 w-20 object-contain"
-        />
-      </Link>
-      
-      <div className="flex items-center gap-6">
-        <nav className="hidden md:flex gap-8">
-          <Link 
-            to="/" 
-            onClick={scrollToTop}
-            className={`transition-colors duration-300 font-medium ${
-              isActive('/') ? 'text-blue-700' : 'hover:text-blue-700'
-            }`}
-          >
-            {lang === 'en' ? 'Home' : 'الرئيسية'}
-          </Link>
-          <Link 
-            to="/about" 
-            onClick={scrollToTop}
-            className={`transition-colors duration-300 font-medium ${
-              isActive('/about') ? 'text-blue-700' : 'hover:text-blue-700'
-            }`}
-          >
-            {lang === 'en' ? 'About' : 'من نحن'}
-          </Link>
-          <Link 
-            to="/services" 
-            onClick={scrollToTop}
-            className={`transition-colors duration-300 font-medium ${
-              isActive('/services') ? 'text-blue-700' : 'hover:text-blue-700'
-            }`}
-          >
-            {lang === 'en' ? 'Services' : 'الخدمات'}
-          </Link>
-          <Link 
-            to="/contact" 
-            onClick={scrollToTop}
-            className={`transition-colors duration-300 font-medium ${
-              isActive('/contact') ? 'text-blue-700' : 'hover:text-blue-700'
-            }`}
-          >
-            {lang === 'en' ? 'Contact' : 'تواصل معنا'}
-          </Link>
-        </nav>
+        ? 'backdrop-blur-md shadow-lg' 
+        : 'shadow-sm'
+    }`} style={{
+      backgroundColor: isScrolled ? 'rgba(248, 234, 225, 0.95)' : '#f8eae1'
+    }}>
+      {/* Mobile layout - original (logo left, menu right) */}
+      <div className="md:hidden flex items-center justify-between w-full">
+        <Link to="/" onClick={scrollToTop} className="flex items-center">
+          <img 
+            src={getContent('images', lang)?.logo || '/assets/logo.png'} 
+            alt="logo" 
+            className="h-20 w-20 object-contain"
+          />
+        </Link>
         
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} 
             className="px-4 py-2 border-2 rounded-full font-medium transition-all duration-300 hover:scale-105"
             style={{
-              borderColor: '#004C97',
-              backgroundColor: lang === 'ar' ? '#004C97' : 'transparent',
-              color: lang === 'ar' ? 'white' : '#004C97'
+              borderColor: primary,
+              backgroundColor: lang === 'ar' ? primary : 'transparent',
+              color: lang === 'ar' ? 'white' : primary
             }}
           >
             {lang === 'en' ? 'العربية' : 'EN'}
@@ -129,7 +95,7 @@ export default function Header({lang, setLang}){
           {/* Mobile menu button */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -142,43 +108,151 @@ export default function Header({lang, setLang}){
         </div>
       </div>
       
+      {/* Desktop layout - centered */}
+      <div className="hidden md:flex max-w-7xl mx-auto items-center justify-center relative">
+        {/* Language button - positioned on the right */}
+        <div className="absolute right-0 flex items-center gap-3">
+          <button 
+            onClick={() => setLang(lang === 'en' ? 'ar' : 'en')} 
+            className="px-4 py-2 border-2 rounded-full font-medium transition-all duration-300 hover:scale-105"
+            style={{
+              borderColor: primary,
+              backgroundColor: lang === 'ar' ? primary : 'transparent',
+              color: lang === 'ar' ? 'white' : primary
+            }}
+          >
+            {lang === 'en' ? 'العربية' : 'EN'}
+          </button>
+        </div>
+        
+        {/* Centered logo and navigation - side by side */}
+        <div className="flex items-center gap-8">
+          {/* Logo */}
+          <Link to="/" onClick={scrollToTop} className="flex items-center">
+            <img 
+              src={getContent('images', lang)?.logo || '/assets/logo.png'} 
+              alt="logo" 
+              className="h-20 w-20 object-contain"
+            />
+          </Link>
+          
+          {/* Navigation */}
+          <nav className="flex gap-8">
+            <Link 
+              to="/" 
+              onClick={scrollToTop}
+              className="transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/') ? primary : '#a84a18'
+              }}
+              onMouseEnter={(e) => e.target.style.color = primary}
+              onMouseLeave={(e) => e.target.style.color = isActive('/') ? primary : '#a84a18'}
+            >
+              {lang === 'en' ? 'Home' : 'الرئيسية'}
+            </Link>
+            <Link 
+              to="/about" 
+              onClick={scrollToTop}
+              className="transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/about') ? primary : '#a84a18'
+              }}
+              onMouseEnter={(e) => e.target.style.color = primary}
+              onMouseLeave={(e) => e.target.style.color = isActive('/about') ? primary : '#a84a18'}
+            >
+              {lang === 'en' ? 'About' : 'من نحن'}
+            </Link>
+            <Link 
+              to="/pwas" 
+              onClick={scrollToTop}
+              className="transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/pwas') ? primary : '#a84a18'
+              }}
+              onMouseEnter={(e) => e.target.style.color = primary}
+              onMouseLeave={(e) => e.target.style.color = isActive('/pwas') ? primary : '#a84a18'}
+            >
+              {lang === 'en' ? 'PWAS' : 'PWAS'}
+            </Link>
+            <Link 
+              to="/services" 
+              onClick={scrollToTop}
+              className="transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/services') ? primary : '#a84a18'
+              }}
+              onMouseEnter={(e) => e.target.style.color = primary}
+              onMouseLeave={(e) => e.target.style.color = isActive('/services') ? primary : '#a84a18'}
+            >
+              {lang === 'en' ? 'Services' : 'الخدمات'}
+            </Link>
+            <Link 
+              to="/contact" 
+              onClick={scrollToTop}
+              className="transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/contact') ? primary : '#a84a18'
+              }}
+              onMouseEnter={(e) => e.target.style.color = primary}
+              onMouseLeave={(e) => e.target.style.color = isActive('/contact') ? primary : '#a84a18'}
+            >
+              {lang === 'en' ? 'Contact' : 'تواصل معنا'}
+            </Link>
+          </nav>
+        </div>
+      </div>
+      
       {/* Mobile menu dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40">
+        <div className="md:hidden absolute top-full left-0 right-0 shadow-lg border-t border-gray-200 z-40" style={{backgroundColor: '#f8eae1'}}>
           <nav className="px-6 py-4 space-y-4">
             <Link 
               to="/" 
               onClick={handleNavClick}
-              className={`block py-2 transition-colors duration-300 font-medium ${
-                isActive('/') ? 'text-blue-700' : 'hover:text-blue-700'
-              }`}
+              className="block py-2 transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/') ? primary : '#a84a18'
+              }}
             >
               {lang === 'en' ? 'Home' : 'الرئيسية'}
             </Link>
             <Link 
               to="/about" 
               onClick={handleNavClick}
-              className={`block py-2 transition-colors duration-300 font-medium ${
-                isActive('/about') ? 'text-blue-700' : 'hover:text-blue-700'
-              }`}
+              className="block py-2 transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/about') ? primary : '#a84a18'
+              }}
             >
               {lang === 'en' ? 'About' : 'من نحن'}
             </Link>
             <Link 
+              to="/pwas" 
+              onClick={handleNavClick}
+              className="block py-2 transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/pwas') ? primary : '#a84a18'
+              }}
+            >
+              {lang === 'en' ? 'PWAS' : 'PWAS'}
+            </Link>
+            <Link 
               to="/services" 
               onClick={handleNavClick}
-              className={`block py-2 transition-colors duration-300 font-medium ${
-                isActive('/services') ? 'text-blue-700' : 'hover:text-blue-700'
-              }`}
+              className="block py-2 transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/services') ? primary : '#a84a18'
+              }}
             >
               {lang === 'en' ? 'Services' : 'الخدمات'}
             </Link>
             <Link 
               to="/contact" 
               onClick={handleNavClick}
-              className={`block py-2 transition-colors duration-300 font-medium ${
-                isActive('/contact') ? 'text-blue-700' : 'hover:text-blue-700'
-              }`}
+              className="block py-2 transition-colors duration-300 font-medium"
+              style={{
+                color: isActive('/contact') ? primary : '#a84a18'
+              }}
             >
               {lang === 'en' ? 'Contact' : 'تواصل معنا'}
             </Link>

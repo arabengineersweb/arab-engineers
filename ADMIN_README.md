@@ -1,7 +1,7 @@
 Admin Panel Access
 
 Admin Panel URL
-The admin panel is accessible at: `/admin-panel-7x9k2m8n`
+The admin panel is accessible at: `/admin-panel-arabengksa2024`
 
 Login Credentials
 - **Username:** `admin`
@@ -21,7 +21,7 @@ Security Notes
 - In production, implement proper backend authentication and file saving
 
 Usage
-1. Navigate to `/admin-panel-7x9k2m8n`
+1. Navigate to `/admin-panel-arabengksa2024`
 2. Enter admin credentials
 3. Use the sidebar to navigate between sections
 4. Make changes using the form controls

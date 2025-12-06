@@ -4,8 +4,13 @@
 
 /* Import Poppins via index.html link */
 :root{
-  --primary: #004C97;
-  --secondary: #F1F5F9;
+  --primary: #d66020;
+  --secondary: #f8eae1;
+  --accent: #a84a18;
+  --tertiary: #f78c63;
+  --heading-size: 2.5rem;
+  --text-size: 1.1rem;
+  --font-family: 'Poppins', sans-serif;
 }
 
 html {
@@ -14,7 +19,7 @@ html {
 
 body {
   font-family: var(--font-family, 'Poppins', sans-serif);
-  background-color: white;
+  background-color: #f8eae1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -45,11 +50,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #003d7a;
+  background: var(--accent);
 }
 
-/* Smooth transitions for all interactive elements */
-* {
+/* Smooth transitions for interactive elements only */
+a, button, input, textarea, select {
   transition: all 0.3s ease;
 }
 
@@ -111,7 +116,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), #0066cc);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -130,9 +135,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-  background: #003d7a;
+  background: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 76, 151, 0.3);
+  box-shadow: 0 10px 20px rgba(214, 96, 32, 0.3);
 }
 
 .btn-secondary {
@@ -180,7 +185,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 76, 151, 0.1);
+  box-shadow: 0 0 0 3px rgba(214, 96, 32, 0.1);
 }
 
 /* Responsive design helpers */

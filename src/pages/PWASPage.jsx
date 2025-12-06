@@ -4,14 +4,36 @@ import { getContent } from '../utils/contentLoader'
 import { getStyle } from '../utils/styleManager'
 import { adminUtils } from '../utils/adminUtils'
 
-export default function Services({lang}){
+export default function PWASPage({lang}) {
   const servicesData = getContent('services', lang)
   const primary = getStyle('primaryColor')
   
   // Get PWAS details from admin content or use defaults
   const adminContent = adminUtils.loadContent()
   const adminPWASDetails = adminContent?.[lang]?.services?.pwasDetails || {}
+  const cameraContent = adminContent?.[lang]?.camera || {}
+  const cameraImages = cameraContent.images || {}
+  const pwasMainImage = adminContent?.[lang]?.services?.pwasMainImage || '/assets/pwas.jpg'
   
+  // Get PWAS page content (title, description, benefits)
+  const pwasPageContent = adminContent?.[lang]?.pwas || {}
+  const pwasTitle = pwasPageContent.title || (lang === 'en' ? 'Proximity Warning Alert System (PWAS)' : 'نظام الإنذار والتحذير من القرب (PWAS)')
+  
+  // Get main description and benefits from admin content or parse from services description
+  let mainText = pwasPageContent.mainDescription
+  let benefitsTitle = pwasPageContent.benefitsTitle
+  let benefitsList = pwasPageContent.benefits || []
+  
+  // Fallback to parsing from services description if admin content not available
+  if (!mainText || !benefitsTitle || benefitsList.length === 0) {
+    const descriptionParts = servicesData.description.split('\n\n')
+    mainText = mainText || descriptionParts[0]
+    const benefitsSection = descriptionParts.slice(1).join('\n\n')
+    const benefitsLines = benefitsSection.split('\n').filter(line => line.trim())
+    benefitsTitle = benefitsTitle || benefitsLines[0]
+    benefitsList = benefitsList.length > 0 ? benefitsList : benefitsLines.slice(1)
+  }
+
   // PWAS detailed content - merge admin content with defaults
   const defaultPWASContent = {
     'non-tag-pwas': {
@@ -145,86 +167,74 @@ export default function Services({lang}){
       }
     })
   }, [lang])
-  
+
   return (
-    <section id="services" className="pt-32 py-12 relative overflow-hidden" style={{backgroundColor: '#f8eae1'}}>
-      
-      <div className="relative max-w-7xl mx-auto px-6">
+    <section className="pt-32 py-12 min-h-screen" style={{backgroundColor: '#f8eae1'}}>
+      <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-10" data-aos="fade-up">
-          <h2 className="font-bold mb-6" style={{
+        <div className="text-center mb-12" data-aos="fade-up">
+          <h1 className="font-bold mb-6" style={{
             color: primary, 
-            // Larger minimum for better readability on mobile
-            fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
+            fontSize: 'clamp(2.5rem, 6vw, calc(var(--heading-size) * 1.2))'
           }}>
-            {servicesData.title}
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'clamp(1.3rem, 2.5vw, calc(var(--text-size) * 1.3))'}}>
-            {servicesData.subtitle}
-          </p>
+            {pwasTitle}
+          </h1>
         </div>
 
-        {/* Description with Image Side by Side */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12 items-center" data-aos="fade-up">
+        {/* Main Description with Image */}
+        <div className="grid md:grid-cols-2 gap-12 mb-16 items-center" data-aos="fade-up">
           <div>
-            {(() => {
-              const descriptionParts = servicesData.description.split('\n\n');
-              const mainText = descriptionParts[0];
-              const benefitsSection = descriptionParts.slice(1).join('\n\n');
-              const benefitsLines = benefitsSection.split('\n').filter(line => line.trim());
-              const benefitsTitle = benefitsLines[0];
-              const benefitsList = benefitsLines.slice(1);
-              
-              return (
-                <>
-                  <p className="text-gray-700 mb-6 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
-                    {mainText}
-                  </p>
-                  {benefitsTitle && (
-                    <>
-                      <h3 className="font-semibold mb-4" style={{
-                        color: primary,
-                        fontSize: 'clamp(1.2rem, 2vw, calc(var(--text-size) * 1.2))'
-                      }}>
-                        {benefitsTitle}
-                      </h3>
-                      <ul className="space-y-2">
-                        {benefitsList.map((benefit, index) => (
-                          <li key={index} className="flex items-center gap-3 text-gray-700" style={{fontSize: 'var(--text-size)'}}>
-                            <div className="w-2 h-2 rounded-full flex-shrink-0" style={{backgroundColor: primary}}></div>
-                            <span>{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="mt-6">
-                        <Link 
-                          to="/pwas"
-                          className="inline-block px-6 py-3 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                          style={{backgroundColor: primary}}
-                        >
-                          {lang === 'en' ? 'Learn More' : 'اعرف المزيد'}
-                        </Link>
-                      </div>
-                    </>
-                  )}
-                </>
-              );
-            })()}
+            <p className="text-gray-700 mb-8 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
+              {mainText}
+            </p>
+            
+            {benefitsTitle && (
+              <div className="mb-8">
+                <h2 className="font-semibold mb-6" style={{
+                  color: primary,
+                  fontSize: 'clamp(1.5rem, 3vw, calc(var(--heading-size) * 0.9))'
+                }}>
+                  {benefitsTitle}
+                </h2>
+                <ul className="space-y-3">
+                  {benefitsList.map((benefit, index) => (
+                    <li key={index} className="flex items-start gap-3 text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-lg" data-aos="fade-left">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl" data-aos="fade-left">
             <img 
-              src={servicesData.pwasMainImage || '/assets/pwas.jpg'} 
+              src={pwasMainImage} 
               alt="Proximity Warning Alert System (PWAS)"
               className="w-full h-auto object-contain"
             />
           </div>
         </div>
-        
-        {/* PWAS Systems - Full Width Containers */}
-        <div className="space-y-8 mb-12">
-          {servicesData.services
-            .filter(service => service.id.includes('pwas'))
-            .map((service, index) => {
+
+        {/* PWAS Systems Section */}
+        <div className="mb-16" data-aos="fade-up">
+          <div className="text-center mb-12">
+            <h2 className="font-bold mb-4" style={{
+              color: primary, 
+              fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
+            }}>
+              {lang === 'en' ? 'Our PWAS Systems' : 'أنظمة PWAS الخاصة بنا'}
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
+              {lang === 'en' 
+                ? 'We offer a comprehensive range of PWAS solutions tailored to different industrial needs.'
+                : 'نقدم مجموعة شاملة من حلول PWAS المصممة خصيصًا للاحتياجات الصناعية المختلفة.'
+              }
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {servicesData.services.filter(service => service.id.includes('pwas')).map((service, index) => {
               const pwasInfo = pwasContent[service.id]
               const serviceImage = pwasInfo?.image || '/assets/about.jpg'
               const serviceImage2 = pwasInfo?.secondImage || '/assets/about.jpg'
@@ -347,17 +357,262 @@ export default function Services({lang}){
                 </div>
               )
             })}
+          </div>
         </div>
-        
-        {/* Process Section */}
-        <div className="bg-white rounded-3xl p-12 shadow-xl" data-aos="fade-up">
+
+        {/* Camera Section */}
+        <div className="mb-16" data-aos="fade-up">
           <div className="text-center mb-12">
-            <h3 className="font-bold mb-4" style={{
+            <h2 className="font-bold mb-4" style={{
+              color: primary, 
+              fontSize: 'clamp(2rem, 5vw, var(--heading-size))'
+            }}>
+              {lang === 'en' ? 'Camera Specification' : 'مواصفات الكاميرا'}
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
+              {cameraContent.description || (lang === 'en' 
+                ? 'Waterproof IP69K AHD 1080P Reversing Car Camera for vehicles, trucks, and buses.'
+                : 'كاميرا عكسية مقاومة للماء IP69K AHD 1080P للمركبات والشاحنات والحافلات.')
+              }
+            </p>
+          </div>
+
+          {/* Camera Specs Images */}
+          <div className="flex gap-4 mb-12 justify-center items-center">
+            <img 
+              src={cameraImages.specs1 || '/assets/cam-specs1.jpg'} 
+              alt={lang === 'en' ? 'Camera Specifications 1' : 'مواصفات الكاميرا 1'}
+              className="max-w-full h-auto object-contain rounded-xl"
+              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              loading="lazy"
+            />
+            <img 
+              src={cameraImages.specs2 || '/assets/cam-specs2.jpg'} 
+              alt={lang === 'en' ? 'Camera Specifications 2' : 'مواصفات الكاميرا 2'}
+              className="max-w-full h-auto object-contain rounded-xl"
+              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              loading="lazy"
+            />
+            <img 
+              src={cameraImages.specs3 || '/assets/cam-specs3.jpg'} 
+              alt={lang === 'en' ? 'Camera Specifications 3' : 'مواصفات الكاميرا 3'}
+              className="max-w-full h-auto object-contain rounded-xl"
+              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              loading="lazy"
+            />
+          </div>
+
+          {/* Camera Specifications */}
+          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Left Column - Main Features */}
+              <div>
+                <div className="mb-6 flex items-center justify-center bg-gray-50 rounded-xl p-4">
+                  <img 
+                    src={cameraImages.main || '/assets/camera.jpg'} 
+                    alt={lang === 'en' ? 'Camera' : 'الكاميرا'}
+                    className="max-w-full h-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="text-2xl font-bold mb-6" style={{color: primary}}>
+                  {lang === 'en' ? 'Key Features' : 'الميزات الرئيسية'}
+                </h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? '1080P resolution' : 'دقة 1080P'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Waterproof IP69K rating' : 'مقاوم للماء IP69K'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Wide power range: DC 12V or 24V' : 'نطاق طاقة واسع: DC 12V أو 24V'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? '4 Pin lock aviation connector' : 'موصل طيران 4 دبابيس'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Excellent night vision capability' : 'قدرة ممتازة على الرؤية الليلية'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Wide view angle (135 degrees)' : 'زاوية رؤية واسعة (135 درجة)'}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                    <span className="text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Compatible with bus, truck, and trailer' : 'متوافق مع الحافلات والشاحنات والمقطورات'}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Right Column - Technical Specifications */}
+              <div>
+                <h3 className="text-2xl font-bold mb-6" style={{color: primary}}>
+                  {lang === 'en' ? 'Technical Specifications' : 'المواصفات التقنية'}
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Waterproof' : 'مقاوم للماء'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.waterproof || 'IP 69K'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Voltage' : 'الجهد'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.voltage || 'DC 12V (24V optional)'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'View Angle' : 'زاوية الرؤية'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.viewAngle || '135 degrees'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'System' : 'النظام'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.system || 'PAL/NTSC (optional)'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Resolution' : 'الدقة'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.resolution || '1080P'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Image Sensor' : 'مستشعر الصورة'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.imageSensor || '1/3" CMOS'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Pixel' : 'البكسل'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.pixel || '1920 x 1080 (2,000,000)'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Lens' : 'العدسة'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.lens || '2.5 mm'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Consumption' : 'الاستهلاك'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.consumption || '180mA'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Video Output' : 'مخرج الفيديو'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.videoOutput || '1.0vp-p, 75Ohm'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'S/N' : 'نسبة الإشارة إلى الضوضاء'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.sn || '>48dB'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'White Balance' : 'توازن الأبيض'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.whiteBalance || 'Auto'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Certification' : 'الشهادات'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.certification || 'CE, E mark'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Warranty' : 'الضمان'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{cameraContent.warranty || '14 months'}</span>
+                  </div>
+                  <div className="flex justify-between border-b pb-2">
+                    <span className="font-semibold text-gray-700" style={{fontSize: 'var(--text-size)'}}>
+                      {lang === 'en' ? 'Application' : 'التطبيق'}
+                    </span>
+                    <span className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>
+                      {cameraContent.application || (lang === 'en' ? 'Rear view car camera' : 'كاميرا عكسية للمركبات')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Camera Feature Images */}
+        <div className="flex gap-4 mb-12 justify-center items-center" data-aos="fade-up">
+          <img 
+            src={cameraImages.feature1 || '/assets/cam-feature1.jpg'} 
+            alt={lang === 'en' ? 'Camera Feature 1' : 'ميزة الكاميرا 1'}
+            className="max-w-full h-auto object-contain rounded-xl"
+            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            loading="lazy"
+          />
+          <img 
+            src={cameraImages.feature2 || '/assets/cam-feature2.jpg'} 
+            alt={lang === 'en' ? 'Camera Feature 2' : 'ميزة الكاميرا 2'}
+            className="max-w-full h-auto object-contain rounded-xl"
+            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            loading="lazy"
+          />
+          <img 
+            src={cameraImages.feature3 || '/assets/cam-feature3.jpg'} 
+            alt={lang === 'en' ? 'Camera Feature 3' : 'ميزة الكاميرا 3'}
+            className="max-w-full h-auto object-contain rounded-xl"
+            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            loading="lazy"
+          />
+        </div>
+
+        {/* Camera Showcase Image */}
+        <div className="flex justify-center items-center mb-12" data-aos="fade-up">
+          <img 
+            src={cameraImages.showcase || '/assets/cam-showcase.jpg'} 
+            alt={lang === 'en' ? 'Camera Showcase' : 'عرض الكاميرا'}
+            className="h-auto object-contain rounded-xl"
+            style={{maxWidth: '40%'}}
+            loading="lazy"
+          />
+        </div>
+
+        {/* Process Section */}
+        <div className="bg-white rounded-3xl p-12 shadow-xl mb-16" data-aos="fade-up">
+          <div className="text-center mb-12">
+            <h2 className="font-bold mb-4" style={{
               color: primary, 
               fontSize: 'clamp(1.5rem, 3.5vw, calc(var(--heading-size) * 0.8))'
             }}>
               {servicesData.process?.title || (lang === 'en' ? 'Our Process' : 'عملنا')}
-            </h3>
+            </h2>
             <p className="text-gray-600 max-w-2xl mx-auto" style={{fontSize: 'var(--text-size)'}}>
               {servicesData.process?.description || (lang === 'en' 
                 ? 'We follow a systematic approach to deliver exceptional results for every project.'
@@ -403,17 +658,17 @@ export default function Services({lang}){
             ))}
           </div>
         </div>
-        
+
         {/* CTA Section */}
-        <div className="text-center mt-16" data-aos="fade-up">
+        <div className="text-center" data-aos="fade-up">
           <div className="bg-white p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4" style={{color: primary}}>
-              {lang === 'en' ? 'Ready to Start Your Project?' : 'مستعد لبدء مشروعك؟'}
+              {lang === 'en' ? 'Ready to Implement PWAS?' : 'مستعد لتطبيق PWAS؟'}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6" style={{fontSize: 'var(--text-size)'}}>
               {lang === 'en' 
-                ? 'Contact us today for a free consultation and let us bring your vision to life.'
-                : 'تواصل معنا اليوم للحصول على استشارة مجانية ودعنا نحقق رؤيتك.'
+                ? 'Contact us today for a free consultation and let us help you enhance safety in your operations.'
+                : 'تواصل معنا اليوم للحصول على استشارة مجانية ودعنا نساعدك في تعزيز السلامة في عملياتك.'
               }
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -438,3 +693,4 @@ export default function Services({lang}){
     </section>
   )
 }
+

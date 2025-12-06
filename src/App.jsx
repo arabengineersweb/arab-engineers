@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
 import ContactPage from './pages/ContactPage'
+import PWASPage from './pages/PWASPage'
 import NotFoundPage from './pages/NotFoundPage'
 import AdminPage from './pages/AdminPage'
 import { getStyle } from './utils/styleManager'
@@ -36,19 +37,55 @@ export default function App(){
     }
   },[lang])
 
-  // apply primary color as css var
+  // Apply colors as CSS vars - set defaults first, then admin overrides
   useEffect(()=>{
-    const primary = getStyle('primaryColor')
-    document.documentElement.style.setProperty('--primary', primary)
-  },[])
-
-  // Apply admin styles if available
-  useEffect(() => {
-    const adminStyles = adminUtils.loadStyles()
-    if (adminStyles) {
-      adminUtils.applyStyles(adminStyles)
+    // Always set default colors from styles.json first
+    const defaultPrimary = '#d66020'
+    const defaultSecondary = '#f8eae1'
+    const defaultAccent = '#a84a18'
+    const defaultTertiary = '#f78c63'
+    
+    // Check for admin overrides
+    let adminStyles = adminUtils.loadStyles()
+    
+    // If admin styles exist but use old colors, clear them
+    if (adminStyles && (adminStyles.primaryColor === '#004C97' || adminStyles.primaryColor === '#c428f0')) {
+      localStorage.removeItem('adminStyles')
+      adminStyles = null
     }
-  }, [])
+    
+    if (adminStyles && adminStyles.primaryColor) {
+      // Use admin styles if they exist
+      adminUtils.applyStyles(adminStyles)
+    } else {
+      // Use the default colors and sizes from styles.json
+      const primary = getStyle('primaryColor')
+      const secondary = getStyle('secondaryColor')
+      const accent = getStyle('accentColor') || defaultAccent
+      const tertiary = getStyle('tertiaryColor') || defaultTertiary
+      const headingSize = getStyle('headingSize') || '2.5'
+      const textSize = getStyle('textSize') || '1.1'
+      const fontFamily = getStyle('fontFamily') || 'Poppins, sans-serif'
+      
+      document.documentElement.style.setProperty('--primary', primary)
+      document.documentElement.style.setProperty('--secondary', secondary)
+      document.documentElement.style.setProperty('--accent', accent)
+      document.documentElement.style.setProperty('--tertiary', tertiary)
+      document.documentElement.style.setProperty('--heading-size', `${headingSize}rem`)
+      document.documentElement.style.setProperty('--text-size', `${textSize}rem`)
+      document.documentElement.style.setProperty('--font-family', fontFamily)
+    }
+    
+    // Always ensure heading-size and text-size are set even if admin styles don't include them
+    if (!document.documentElement.style.getPropertyValue('--heading-size')) {
+      const headingSize = getStyle('headingSize') || '2.5'
+      document.documentElement.style.setProperty('--heading-size', `${headingSize}rem`)
+    }
+    if (!document.documentElement.style.getPropertyValue('--text-size')) {
+      const textSize = getStyle('textSize') || '1.1'
+      document.documentElement.style.setProperty('--text-size', `${textSize}rem`)
+    }
+  },[])
 
   return (
     <Router>
@@ -90,6 +127,15 @@ export default function App(){
               <Header lang={lang} setLang={setLang} />
               <main>
                 <ContactPage lang={lang} />
+              </main>
+                  <Footer lang={lang} />
+            </>
+          } />
+          <Route path="/pwas" element={
+            <>
+              <Header lang={lang} setLang={setLang} />
+              <main>
+                <PWASPage lang={lang} />
               </main>
                   <Footer lang={lang} />
             </>

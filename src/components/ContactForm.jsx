@@ -19,11 +19,11 @@ export default function ContactForm({lang}){
   }
   
   return (
-    <section id="contact" className="pt-32 py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+    <section id="contact" className="pt-32 py-12 relative overflow-hidden" style={{backgroundColor: 'white'}}>
       
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-10" data-aos="fade-up">
           <h3 className="font-bold mb-6" style={{
             color: primary, 
             // Larger on mobile via increased minimum
@@ -53,7 +53,13 @@ export default function ContactForm({lang}){
                   </div>
                   <div>
                     <h5 className="font-semibold text-gray-900 mb-1" style={{fontSize: 'var(--text-size)'}}>{lang === 'en' ? 'Email' : 'البريد الإلكتروني'}</h5>
-                    <p className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{contact.email}</p>
+                    <a 
+                      href={`mailto:${contact.email}`}
+                      className="text-gray-600 hover:text-gray-900 transition-colors duration-300"
+                      style={{fontSize: 'var(--text-size)'}}
+                    >
+                      {contact.email}
+                    </a>
                   </div>
                 </div>
                 
@@ -65,7 +71,13 @@ export default function ContactForm({lang}){
                   </div>
                   <div>
                     <h5 className="font-semibold text-gray-900 mb-1" style={{fontSize: 'var(--text-size)'}}>{lang === 'en' ? 'Phone' : 'الهاتف'}</h5>
-                    <p className="text-gray-600" style={{fontSize: 'var(--text-size)'}}>{contact.phone}</p>
+                    <a 
+                      href={`tel:${contact.phone?.replace(/\s/g, '') || ''}`}
+                      className="text-gray-600 hover:text-gray-900 transition-colors duration-300"
+                      style={{fontSize: 'var(--text-size)'}}
+                    >
+                      {contact.phone}
+                    </a>
                   </div>
                 </div>
                 
@@ -116,7 +128,18 @@ export default function ContactForm({lang}){
                   value={formData.name}
                   onChange={handleChange}
                   placeholder={lang === 'en' ? 'Enter your full name' : 'أدخل اسمك الكامل'} 
-                  className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" 
+                  className="w-full p-4 border border-gray-300 rounded-xl transition-all duration-300 focus:outline-none"
+                  style={{
+                    '--tw-ring-color': 'var(--primary)'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--primary)'
+                    e.target.style.boxShadow = '0 0 0 3px rgba(214, 96, 32, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db'
+                    e.target.style.boxShadow = ''
+                  }} 
                   required 
                 />
               </div>
@@ -131,7 +154,18 @@ export default function ContactForm({lang}){
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your email address" 
-                  className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" 
+                  className="w-full p-4 border border-gray-300 rounded-xl transition-all duration-300 focus:outline-none"
+                  style={{
+                    '--tw-ring-color': 'var(--primary)'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--primary)'
+                    e.target.style.boxShadow = '0 0 0 3px rgba(214, 96, 32, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db'
+                    e.target.style.boxShadow = ''
+                  }} 
                   required 
                 />
               </div>
@@ -146,7 +180,15 @@ export default function ContactForm({lang}){
                   onChange={handleChange}
                   placeholder={lang === 'en' ? 'Tell us about your project or inquiry...' : 'أخبرنا عن مشروعك أو استفسارك...'} 
                   rows={5}
-                  className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none" 
+                  className="w-full p-4 border border-gray-300 rounded-xl transition-all duration-300 resize-none focus:outline-none"
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--primary)'
+                    e.target.style.boxShadow = '0 0 0 3px rgba(214, 96, 32, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db'
+                    e.target.style.boxShadow = ''
+                  }} 
                   required 
                 />
               </div>

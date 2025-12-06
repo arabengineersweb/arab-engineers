@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getContent } from '../utils/contentLoader'
 import { getStyle } from '../utils/styleManager'
+import { adminUtils } from '../utils/adminUtils'
 
 export default function About({lang}){
   const about = getContent('about', lang)
@@ -9,12 +10,29 @@ export default function About({lang}){
   const features = about.features || []
   const stats = about.stats || []
   
+  // Get additional about images from admin content
+  const adminContent = adminUtils.loadContent()
+  const engineerAbout = adminContent?.[lang]?.about?.engineerImage || '/assets/engineer-about.jpg'
+  
+  // Preload about images for faster loading
+  useEffect(() => {
+    // Preload main about image
+    if (about.image && !about.image.startsWith('data:')) {
+      const img = new Image()
+      img.src = about.image
+    }
+    
+    // Preload small hexagon image
+    const smallImg = new Image()
+    smallImg.src = engineerAbout
+  }, [about.image, engineerAbout])
+  
   return (
-    <section id="about" className="pt-32 py-20 bg-white relative overflow-hidden">
+    <section id="about" className="pt-32 py-12 relative overflow-hidden" style={{backgroundColor: 'white'}}>
       
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-10" data-aos="fade-up">
           <h2 className="font-bold mb-6" style={{
             color: primary, 
             // Increase minimum size so headings are larger on small screens
@@ -22,25 +40,82 @@ export default function About({lang}){
           }}>
             {about.title}
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
+          <p className="text-gray-600 max-w-5xl mx-auto leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
             {about.text}
           </p>
         </div>
         
         {/* Main content grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Image */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-12">
+          {/* Image with hexagon design */}
           <div data-aos="fade-right" className="relative">
             <div className="relative z-10">
-              <img 
-                src={about.image} 
-                alt="about" 
-                className="w-full h-auto rounded-2xl shadow-2xl"
-              />
+              {/* Main hexagon container */}
+              <div className="relative" style={{width: '100%', paddingTop: '85%'}}>
+                {/* Large hexagon */}
+                <div 
+                  className="absolute inset-0"
+                  style={{
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                    background: `linear-gradient(135deg, ${primary} 0%, #a84a18 100%)`,
+                    boxShadow: '0 20px 60px rgba(214, 96, 32, 0.3)',
+                    transform: 'rotate(5deg)',
+                    transition: 'transform 0.3s ease'
+                  }}
+                >
+                  <div className="absolute inset-2" style={{
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                    backgroundImage: `url(${about.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    borderRadius: '0'
+                  }}></div>
+                </div>
+                
+                {/* Smaller hexagon overlay */}
+                <div 
+                  className="absolute"
+                  style={{
+                    bottom: '-8%',
+                    left: '-5%',
+                    width: '35%',
+                    paddingTop: '35%',
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                    background: `linear-gradient(135deg, #f78c63 0%, #e67a50 100%)`,
+                    boxShadow: '0 15px 40px rgba(247, 140, 99, 0.4)',
+                    transform: 'rotate(-20deg)',
+                    zIndex: 5
+                  }}
+                >
+                  <div className="absolute inset-2" style={{
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                    backgroundImage: `url(${engineerAbout})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    borderRadius: '0'
+                  }}></div>
+                </div>
+                
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-24 h-24 rounded-full" style={{
+                  background: `linear-gradient(135deg, ${primary}, #a84a18)`,
+                  opacity: 0.2,
+                  filter: 'blur(25px)',
+                  zIndex: 1
+                }}></div>
+              </div>
+              
               {/* Floating stats */}
-              <div className="absolute -top-6 -right-6 bg-white p-6 rounded-xl shadow-lg">
+              <div className="absolute -top-6 -right-6 bg-white p-6 rounded-xl shadow-lg z-20" style={{
+                boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
+              }}>
                 <div className="text-center">
-                  <div className="text-3xl font-bold" style={{color: primary}}>15+</div>
+                  <div className="text-3xl font-bold" style={{
+                    background: `linear-gradient(135deg, ${primary}, #a84a18)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>15+</div>
                   <div className="text-sm text-gray-600">{lang === 'en' ? 'Years' : 'سنة'}</div>
                 </div>
               </div>
@@ -70,7 +145,7 @@ export default function About({lang}){
         </div>
         
         {/* Stats section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20" data-aos="fade-up">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12" data-aos="fade-up">
           {stats.map((stat, index) => (
             <div key={index} className="text-center p-6 rounded-2xl" style={{backgroundColor: 'var(--secondary)'}}>
               <div className="text-4xl font-bold mb-2" style={{color: primary}}>{stat.value}</div>
