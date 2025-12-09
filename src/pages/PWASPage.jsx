@@ -663,12 +663,18 @@ export default function PWASPage({lang}) {
         </div>
 
         {/* Camera Showcase Image */}
+        <style>{`
+          @media (min-width: 768px) {
+            .cam-showcase-img {
+              max-width: 40% !important;
+            }
+          }
+        `}</style>
         <div className="flex justify-center items-center mb-12" data-aos="fade-up">
           <img 
             src={cameraImages.showcase || '/assets/cam-showcase.jpg'} 
             alt={lang === 'en' ? 'Camera Showcase' : 'عرض الكاميرا'}
-            className="h-auto object-contain rounded-xl w-full md:w-auto"
-            style={{maxWidth: '100%'}}
+            className="cam-showcase-img h-auto object-contain rounded-xl w-full md:w-auto"
             loading="lazy"
           />
         </div>
