@@ -169,8 +169,8 @@ export default function PWASPage({lang}) {
   }, [lang])
 
   return (
-    <section className="pt-32 py-12 min-h-screen overflow-x-hidden w-full" style={{backgroundColor: '#f8eae1'}}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+    <section className="pt-32 py-12 relative overflow-hidden" style={{backgroundColor: '#f8eae1'}}>
+      <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12" data-aos="fade-up">
           <h1 className="font-bold mb-6" style={{
