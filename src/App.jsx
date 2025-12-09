@@ -89,7 +89,7 @@ export default function App(){
 
   return (
     <Router>
-      <div className="min-h-screen">
+      <div className="min-h-screen overflow-x-hidden w-full">
         <Routes>
           {/* Admin route with unique, hard-to-guess URL */}
           <Route path="/admin-panel-arabengksa2024" element={<AdminPage />} />

@@ -165,8 +165,8 @@ export default function Services({lang}){
         </div>
 
         {/* Description with Image Side by Side */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12 items-center" data-aos="fade-up">
-          <div>
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 mb-12 items-center" data-aos="fade-up">
+          <div className="order-1 md:order-none">
             {(() => {
               const descriptionParts = servicesData.description.split('\n\n');
               const mainText = descriptionParts[0];
@@ -211,7 +211,7 @@ export default function Services({lang}){
               );
             })()}
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-lg" data-aos="fade-left">
+          <div className="relative rounded-2xl overflow-hidden shadow-lg order-2 md:order-none" data-aos="fade-left">
             <img 
               src={servicesData.pwasMainImage || '/assets/pwas.jpg'} 
               alt="Proximity Warning Alert System (PWAS)"
@@ -241,7 +241,56 @@ export default function Services({lang}){
                   data-aos-delay={index * 100}
                   className="bg-white rounded-3xl shadow-xl overflow-hidden"
                 >
-                  <div className="grid grid-cols-2 gap-0">
+                  {/* Mobile Layout: heading/description - image 1 - features/specs - image 2 */}
+                  <div className="flex flex-col md:hidden">
+                    {/* Heading and Description */}
+                    <div className="w-full p-6 flex flex-col justify-center bg-gray-50">
+                      <h3 className="text-2xl font-bold mb-4" style={{color: primary}}>
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
+                        {pwasInfo?.description || service.description}
+                      </p>
+                    </div>
+                    
+                    {/* Image 1 */}
+                    <div className="relative flex items-center justify-center bg-gray-50 p-6" style={{minHeight: '300px'}}>
+                      <img 
+                        src={serviceImage} 
+                        alt={service.title}
+                        className="max-w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    
+                    {/* Features and Specifications */}
+                    <div className="w-full p-6 flex flex-col justify-center bg-gray-50">
+                      <h4 className="font-semibold mb-4 text-gray-800" style={{fontSize: 'calc(var(--text-size) * 1.1)'}}>
+                        {lang === 'en' ? 'Device Features and Specifications' : 'ميزات ومواصفات الجهاز'}
+                      </h4>
+                      <ul className="space-y-2">
+                        {(pwasInfo?.specifications || service.features).map((spec, specIndex) => (
+                          <li key={specIndex} className="flex items-start gap-2 text-gray-600" style={{fontSize: 'var(--text-size)'}}>
+                            <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                            <span>{spec}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    {/* Image 2 */}
+                    <div className="relative flex items-center justify-center bg-gray-50 p-6" style={{minHeight: '300px'}}>
+                      <img 
+                        src={serviceImage2} 
+                        alt={`${service.title} - Additional view`}
+                        className="max-w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Desktop Layout: Original alternating grid */}
+                  <div className="hidden md:grid grid-cols-2 gap-0">
                     {/* Top Left */}
                     <div className={`relative flex items-center justify-center bg-gray-50 p-6 ${
                       layoutType === 'image-first' ? '' : ''

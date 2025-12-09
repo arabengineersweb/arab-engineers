@@ -169,8 +169,8 @@ export default function PWASPage({lang}) {
   }, [lang])
 
   return (
-    <section className="pt-32 py-12 min-h-screen" style={{backgroundColor: '#f8eae1'}}>
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="pt-32 py-12 min-h-screen overflow-x-hidden w-full" style={{backgroundColor: '#f8eae1'}}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
         {/* Header */}
         <div className="text-center mb-12" data-aos="fade-up">
           <h1 className="font-bold mb-6" style={{
@@ -182,8 +182,8 @@ export default function PWASPage({lang}) {
         </div>
 
         {/* Main Description with Image */}
-        <div className="grid md:grid-cols-2 gap-12 mb-16 items-center" data-aos="fade-up">
-          <div>
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-12 mb-16 items-center" data-aos="fade-up">
+          <div className="order-1 md:order-none">
             <p className="text-gray-700 mb-8 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
               {mainText}
             </p>
@@ -207,7 +207,7 @@ export default function PWASPage({lang}) {
               </div>
             )}
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-xl" data-aos="fade-left">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl order-2 md:order-none" data-aos="fade-left">
             <img 
               src={pwasMainImage} 
               alt="Proximity Warning Alert System (PWAS)"
@@ -251,7 +251,56 @@ export default function PWASPage({lang}) {
                   data-aos-delay={index * 100}
                   className="bg-white rounded-3xl shadow-xl overflow-hidden"
                 >
-                  <div className="grid grid-cols-2 gap-0">
+                  {/* Mobile Layout: heading/description - image 1 - features/specs - image 2 */}
+                  <div className="flex flex-col md:hidden">
+                    {/* Heading and Description */}
+                    <div className="w-full p-6 flex flex-col justify-center bg-gray-50">
+                      <h3 className="text-2xl font-bold mb-4" style={{color: primary}}>
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed" style={{fontSize: 'var(--text-size)'}}>
+                        {pwasInfo?.description || service.description}
+                      </p>
+                    </div>
+                    
+                    {/* Image 1 */}
+                    <div className="relative flex items-center justify-center bg-gray-50 p-6" style={{minHeight: '300px'}}>
+                      <img 
+                        src={serviceImage} 
+                        alt={service.title}
+                        className="max-w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    
+                    {/* Features and Specifications */}
+                    <div className="w-full p-6 flex flex-col justify-center bg-gray-50">
+                      <h4 className="font-semibold mb-4 text-gray-800" style={{fontSize: 'calc(var(--text-size) * 1.1)'}}>
+                        {lang === 'en' ? 'Device Features and Specifications' : 'ميزات ومواصفات الجهاز'}
+                      </h4>
+                      <ul className="space-y-2">
+                        {(pwasInfo?.specifications || service.features).map((spec, specIndex) => (
+                          <li key={specIndex} className="flex items-start gap-2 text-gray-600" style={{fontSize: 'var(--text-size)'}}>
+                            <div className="w-2 h-2 rounded-full flex-shrink-0 mt-2" style={{backgroundColor: primary}}></div>
+                            <span>{spec}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    {/* Image 2 */}
+                    <div className="relative flex items-center justify-center bg-gray-50 p-6" style={{minHeight: '300px'}}>
+                      <img 
+                        src={serviceImage2} 
+                        alt={`${service.title} - Additional view`}
+                        className="max-w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Desktop Layout: Original alternating grid */}
+                  <div className="hidden md:grid grid-cols-2 gap-0">
                     {/* Top Left */}
                     <div className={`relative flex items-center justify-center bg-gray-50 p-6 ${
                       layoutType === 'image-first' ? '' : ''
@@ -378,26 +427,36 @@ export default function PWASPage({lang}) {
           </div>
 
           {/* Camera Specs Images */}
-          <div className="flex gap-4 mb-12 justify-center items-center">
+          <style>{`
+            @media (min-width: 768px) {
+              .camera-spec-img {
+                max-width: calc(33.333% - 0.67rem) !important;
+              }
+            }
+            @media (max-width: 767px) {
+              .camera-spec-img {
+                max-width: 100% !important;
+                width: 100% !important;
+              }
+            }
+          `}</style>
+          <div className="flex flex-col md:flex-row gap-4 mb-12 justify-center items-center w-full">
             <img 
               src={cameraImages.specs1 || '/assets/cam-specs1.jpg'} 
               alt={lang === 'en' ? 'Camera Specifications 1' : 'مواصفات الكاميرا 1'}
-              className="max-w-full h-auto object-contain rounded-xl"
-              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              className="camera-spec-img w-full md:w-auto h-auto object-contain rounded-xl"
               loading="lazy"
             />
             <img 
               src={cameraImages.specs2 || '/assets/cam-specs2.jpg'} 
               alt={lang === 'en' ? 'Camera Specifications 2' : 'مواصفات الكاميرا 2'}
-              className="max-w-full h-auto object-contain rounded-xl"
-              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              className="camera-spec-img w-full md:w-auto h-auto object-contain rounded-xl"
               loading="lazy"
             />
             <img 
               src={cameraImages.specs3 || '/assets/cam-specs3.jpg'} 
               alt={lang === 'en' ? 'Camera Specifications 3' : 'مواصفات الكاميرا 3'}
-              className="max-w-full h-auto object-contain rounded-xl"
-              style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+              className="camera-spec-img w-full md:w-auto h-auto object-contain rounded-xl"
               loading="lazy"
             />
           </div>
@@ -569,26 +628,36 @@ export default function PWASPage({lang}) {
         </div>
 
         {/* Camera Feature Images */}
-        <div className="flex gap-4 mb-12 justify-center items-center" data-aos="fade-up">
+        <style>{`
+          @media (min-width: 768px) {
+            .camera-feature-img {
+              max-width: calc(33.333% - 0.67rem) !important;
+            }
+          }
+          @media (max-width: 767px) {
+            .camera-feature-img {
+              max-width: 100% !important;
+              width: 100% !important;
+            }
+          }
+        `}</style>
+        <div className="flex flex-col md:flex-row gap-4 mb-12 justify-center items-center w-full" data-aos="fade-up">
           <img 
             src={cameraImages.feature1 || '/assets/cam-feature1.jpg'} 
             alt={lang === 'en' ? 'Camera Feature 1' : 'ميزة الكاميرا 1'}
-            className="max-w-full h-auto object-contain rounded-xl"
-            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            className="camera-feature-img w-full md:w-auto h-auto object-contain rounded-xl"
             loading="lazy"
           />
           <img 
             src={cameraImages.feature2 || '/assets/cam-feature2.jpg'} 
             alt={lang === 'en' ? 'Camera Feature 2' : 'ميزة الكاميرا 2'}
-            className="max-w-full h-auto object-contain rounded-xl"
-            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            className="camera-feature-img w-full md:w-auto h-auto object-contain rounded-xl"
             loading="lazy"
           />
           <img 
             src={cameraImages.feature3 || '/assets/cam-feature3.jpg'} 
             alt={lang === 'en' ? 'Camera Feature 3' : 'ميزة الكاميرا 3'}
-            className="max-w-full h-auto object-contain rounded-xl"
-            style={{maxWidth: 'calc(33.333% - 0.67rem)'}}
+            className="camera-feature-img w-full md:w-auto h-auto object-contain rounded-xl"
             loading="lazy"
           />
         </div>
@@ -598,8 +667,8 @@ export default function PWASPage({lang}) {
           <img 
             src={cameraImages.showcase || '/assets/cam-showcase.jpg'} 
             alt={lang === 'en' ? 'Camera Showcase' : 'عرض الكاميرا'}
-            className="h-auto object-contain rounded-xl"
-            style={{maxWidth: '40%'}}
+            className="h-auto object-contain rounded-xl w-full md:w-auto"
+            style={{maxWidth: '100%'}}
             loading="lazy"
           />
         </div>
