@@ -75,6 +75,7 @@ export default function ContactForm({lang}){
                       href={`tel:${contact.phone?.replace(/\s/g, '') || ''}`}
                       className="text-gray-600 hover:text-gray-900 transition-colors duration-300 break-words"
                       style={{fontSize: 'var(--text-size)'}}
+                      dir="ltr"
                     >
                       {contact.phone}
                     </a>

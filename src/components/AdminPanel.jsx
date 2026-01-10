@@ -1578,7 +1578,7 @@ export default function AdminPanel({ onLogout }) {
                     label="Contact Info Title"
                   />
                   <TextArea
-                    value={content[lang]?.footer?.contactInfo?.address || 'Eastern Region – Al Ahsa – Mubarez – 6856, Kingdom of Saudi Arabia'}
+                    value={content[lang]?.footer?.contactInfo?.address || 'Eastern Region – Al Ahsa – Al Mubarraz – 6856, Kingdom of Saudi Arabia'}
                     onChange={(value) => handleContentChange('footer', 'contactInfo', { 
                       ...(content[lang]?.footer?.contactInfo || {}), 
                       address: value 

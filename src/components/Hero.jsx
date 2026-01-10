@@ -84,7 +84,7 @@ export default function Hero({lang}){
                 <div className="text-sm text-gray-600">{lang === 'en' ? 'PWAS Systems' : 'أنظمة PWAS'}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold" style={{color: primary}}>40m</div>
+                <div className="text-2xl font-bold" style={{color: primary}}>7 - 15 m</div>
                 <div className="text-sm text-gray-600">{lang === 'en' ? 'Detection Range' : 'نطاق الكشف'}</div>
               </div>
               <div className="text-center">

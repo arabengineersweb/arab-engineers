@@ -115,7 +115,7 @@ export default function About({lang}){
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
-                  }}>15+</div>
+                  }}>5+</div>
                   <div className="text-sm text-gray-600">{lang === 'en' ? 'Years' : 'سنة'}</div>
                 </div>
               </div>
